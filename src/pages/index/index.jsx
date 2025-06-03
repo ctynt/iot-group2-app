@@ -1,17 +1,19 @@
 import { View, Text } from "@tarojs/components";
-import { useLoad } from "@tarojs/taro";
+import Taro from "@tarojs/taro";
 import { AtButton } from "taro-ui";
+
 import "./index.scss";
 
 export default function Index() {
-  useLoad(() => {
-    console.log("Page loaded.");
-  });
-
+  const goToLogin = () => {
+    Taro.navigateTo({
+      url: "/pages/forgot-password/index",
+    });
+  };
   return (
     <View className="index">
       <Text className="title">Hello world!</Text>
-      <AtButton>点击我</AtButton>
+      <AtButton onClick={goToLogin}>跳转到找回密码页面</AtButton>
     </View>
   );
 }
