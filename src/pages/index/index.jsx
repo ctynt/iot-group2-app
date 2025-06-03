@@ -7,13 +7,13 @@ import "./index.scss";
 export default function Index() {
   const goToLogin = () => {
     Taro.navigateTo({
-      url: "/pages/forgot-password/index",
+      url: "/pages/login/index",
     });
   };
   return (
     <View className="index">
       <Text className="title">Hello world!</Text>
-      <AtButton onClick={goToLogin}>跳转到找回密码页面</AtButton>
+      <AtButton onClick={goToLogin}>跳转到登录页面</AtButton>
     </View>
   );
 }
