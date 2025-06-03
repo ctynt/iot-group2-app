@@ -1,3 +1,74 @@
-.title {
-  font-size: large;
+.index {
+  .swiper-container {
+    margin-bottom: 30px;
+
+    .swiper {
+      height: 300px;
+
+      .swiper-item {
+      }
+
+      .swiper-card {
+        height: 100%;
+        background: linear-gradient(135deg, #4594d5, #6fb1e5);
+        border-radius: 16px;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .card-title {
+          font-size: 36px;
+          font-weight: bold;
+          margin-bottom: 16px;
+        }
+
+        .card-desc {
+          font-size: 24px;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .devices-section {
+    margin-left: 10px;
+    .section-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+
+      .device-item {
+        .device-card {
+          background: #fff;
+          border-radius: 12px;
+          overflow: hidden;
+          cursor: pointer;
+          transition: transform 0.2s ease;
+
+          &:active {
+            transform: scale(0.98);
+          }
+
+          .device-status {
+            display: block;
+            text-align: center;
+            font-size: 24px;
+            color: #4594d5;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
 }

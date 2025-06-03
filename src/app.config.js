@@ -4,6 +4,7 @@ export default defineAppConfig({
     "pages/login/index",
     "pages/my/index",
     "pages/scene/index",
+    "pages/device/index",
   ],
   window: {
     backgroundTextStyle: "light",
