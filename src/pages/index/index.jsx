@@ -17,10 +17,46 @@ export default function Index() {
 
   // 设备列表数据
   const devices = [
-    { id: 1, name: "客厅灯", status: "开启" },
-    { id: 2, name: "空调", status: "关闭" },
-    { id: 3, name: "窗帘", status: "开启" },
-    { id: 4, name: "电视", status: "关闭" },
+    {
+      id: 1,
+      device_id: 101,
+      name: "客厅灯",
+      type: 1,
+      switch: 1,
+      status: 1,
+      temperature: null,
+      humidity: null,
+    },
+    {
+      id: 2,
+      device_id: 102,
+      name: "卧室温湿度计",
+      type: 2,
+      switch: 1,
+      status: 1,
+      temperature: 25.5,
+      humidity: 60.0,
+    },
+    {
+      id: 3,
+      device_id: 103,
+      name: "门禁蜂鸣器",
+      type: 3,
+      switch: 0,
+      status: 1,
+      temperature: null,
+      humidity: null,
+    },
+    {
+      id: 4,
+      device_id: 104,
+      name: "走廊红外探测器",
+      type: 4,
+      switch: 1,
+      status: 0,
+      temperature: null,
+      humidity: null,
+    },
   ];
 
   const handleDeviceClick = (deviceId) => {

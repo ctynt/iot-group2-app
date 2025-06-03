@@ -2,6 +2,7 @@ import { View, Text, Image } from "@tarojs/components";
 import { useRouter } from "@tarojs/taro";
 import { useState, useEffect } from "react";
 import "./index.scss";
+import { getDeviceDetail } from "../../services/device";
 
 const DeviceDetail = () => {
   const router = useRouter();
@@ -17,7 +18,14 @@ const DeviceDetail = () => {
   useEffect(() => {
     // 从路由参数获取设备ID
     const { deviceId } = router.params;
-    // TODO: 根据deviceId获取设备详情
+    // 获取设备详情
+    if (deviceId) {
+      getDeviceDetail(deviceId).then((data) => {
+        if (data) {
+          setDevice(data);
+        }
+      });
+    }
   }, []);
 
   const getDeviceType = (type) => {
