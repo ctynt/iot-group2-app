@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能家居 App - 语音控制</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: linear-gradient(
+          to right top,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc
+        );
+        padding: 40px;
+        display: flex;
+        gap: 40px; /* Space between mockups */
+        overflow-x: auto; /* Allow horizontal scrolling for the body */
+        min-height: 100vh;
+      }
+      .mockup {
+        width: 375px; /* iPhone X width */
+        height: 812px; /* iPhone X height */
+        border: 8px solid #f8f9fa;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Clip content to mockup */
+        position: relative;
+        background-color: #ffffff; /* Light background */
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0; /* Prevent mockups from shrinking */
+      }
+      .mockup-content {
+        flex-grow: 1;
+        overflow-y: hidden; /* Strictly no scrollbars */
+        display: flex;
+        flex-direction: column;
+        color: #333333; /* Dark text for light background */
+      }
+      .glassmorphic-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1);
+      }
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .icon-button {
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      .icon-button img {
+        width: 24px;
+        height: 24px;
+      }
+      .microphone-button {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        transition: transform 0.2s ease-in-out;
+      }
+      .microphone-button:active {
+        transform: scale(0.95);
+      }
+      .microphone-button img {
+        width: 40px;
+        height: 40px;
+        filter: invert(1);
+      }
+      .waveform {
+        width: 100%;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 25px;
+        margin-top: 20px;
+        /* Simple placeholder for waveform */
+      }
+      .suggestion-item {
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: #333;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Mockup 1: Voice Control Interface -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>语音控制</h1>
+          <div></div>
+          <!-- Spacer -->
+        </div>
+        <div
+          class="p-6 flex flex-col items-center flex-grow bg-cover bg-center no-scrollbar"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?voice,smart');
+            overflow-y: auto;
+          "
+        >
+          <div class="flex-grow flex flex-col justify-center items-center">
+            <button class="microphone-button mb-6">
+              <img
+                src="https://unpkg.com/lucide-static@latest/icons/mic.svg"
+                alt="Microphone"
+              />
+            </button>
+            <p class="text-lg font-semibold text-gray-800 mb-2">
+              请说出您的指令...
+            </p>
+            <div class="waveform"></div>
+          </div>
+
+          <div class="glassmorphic-card p-6 w-full mt-auto">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">建议指令</h3>
+            <div class="space-y-3">
+              <div class="suggestion-item">打开客厅的灯</div>
+              <div class="suggestion-item">将卧室空调温度设为 25 度</div>
+              <div class="suggestion-item">播放舒缓的音乐</div>
+              <div class="suggestion-item">关闭所有设备</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

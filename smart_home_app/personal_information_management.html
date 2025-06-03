@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能家居 App - 个人信息</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: linear-gradient(
+          to right top,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc
+        );
+        padding: 40px;
+        display: flex;
+        gap: 40px; /* Space between mockups */
+        overflow-x: auto; /* Allow horizontal scrolling for the body */
+        min-height: 100vh;
+      }
+      .mockup {
+        width: 375px; /* iPhone X width */
+        height: 812px; /* iPhone X height */
+        border: 8px solid #f8f9fa;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Clip content to mockup */
+        position: relative;
+        background-color: #ffffff; /* Light background */
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0; /* Prevent mockups from shrinking */
+      }
+      .mockup-content {
+        flex-grow: 1;
+        overflow-y: hidden; /* Strictly no scrollbars */
+        display: flex;
+        flex-direction: column;
+        color: #333333; /* Dark text for light background */
+      }
+      .glassmorphic-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1);
+      }
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .icon-button {
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      .icon-button img {
+        width: 24px;
+        height: 24px;
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .profile-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .profile-item:last-child {
+        border-bottom: none;
+      }
+      .profile-item span:first-child {
+        font-weight: 500;
+        color: #555;
+      }
+      .profile-item span:last-child {
+        color: #333;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Mockup 1: View Profile -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>个人信息</h1>
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/edit.svg"
+              alt="Edit"
+            />
+          </button>
+        </div>
+        <div
+          class="p-6 flex flex-col items-center flex-grow bg-cover bg-center no-scrollbar"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?profile,user');
+            overflow-y: auto;
+          "
+        >
+          <img
+            src="https://source.unsplash.com/random/150x150?face"
+            alt="User Avatar"
+            class="avatar mb-6"
+          />
+          <div class="glassmorphic-card p-6 w-full">
+            <div class="profile-item">
+              <span>用户名</span>
+              <span>SmartUser123</span>
+            </div>
+            <div class="profile-item">
+              <span>邮箱</span>
+              <span>user@example.com</span>
+            </div>
+            <div class="profile-item">
+              <span>手机号</span>
+              <span>+86 123 4567 8901</span>
+            </div>
+            <div class="profile-item">
+              <span>注册日期</span>
+              <span>2023-01-01</span>
+            </div>
+          </div>
+
+          <div class="glassmorphic-card p-6 w-full mt-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">账户安全</h3>
+            <button class="profile-item w-full text-left">
+              <span>修改密码</span>
+              <img
+                src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                alt="Next"
+                class="w-5 h-5 text-gray-500"
+              />
+            </button>
+            <button class="profile-item w-full text-left">
+              <span>绑定手机号</span>
+              <img
+                src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                alt="Next"
+                class="w-5 h-5 text-gray-500"
+              />
+            </button>
+          </div>
+
+          <button
+            class="mt-6 w-full py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-colors"
+          >
+            退出登录
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Edit Profile -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>编辑个人信息</h1>
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/check.svg"
+              alt="Save"
+            />
+          </button>
+        </div>
+        <div
+          class="p-6 flex flex-col items-center flex-grow bg-cover bg-center no-scrollbar"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?profile,edit');
+            overflow-y: auto;
+          "
+        >
+          <div class="relative mb-6">
+            <img
+              src="https://source.unsplash.com/random/150x150?face"
+              alt="User Avatar"
+              class="avatar"
+            />
+            <button
+              class="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full shadow-md"
+            >
+              <img
+                src="https://unpkg.com/lucide-static@latest/icons/camera.svg"
+                alt="Change Avatar"
+                class="w-5 h-5 text-white"
+              />
+            </button>
+          </div>
+
+          <div class="glassmorphic-card p-6 w-full space-y-4">
+            <div>
+              <label
+                for="username"
+                class="block text-sm font-medium text-gray-700"
+                >用户名</label
+              >
+              <input
+                type="text"
+                id="username"
+                value="SmartUser123"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white/70"
+              />
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700"
+                >邮箱</label
+              >
+              <input
+                type="email"
+                id="email"
+                value="user@example.com"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white/70"
+              />
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700"
+                >手机号</label
+              >
+              <input
+                type="tel"
+                id="phone"
+                value="+86 123 4567 8901"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm bg-white/70"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

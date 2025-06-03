@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能家居 App - 设备管理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: linear-gradient(
+          to right top,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc
+        );
+        padding: 40px;
+        display: flex;
+        gap: 40px; /* Space between mockups */
+        overflow-x: auto; /* Allow horizontal scrolling for the body */
+        min-height: 100vh;
+      }
+      .mockup {
+        width: 375px; /* iPhone X width */
+        height: 812px; /* iPhone X height */
+        border: 8px solid #f8f9fa;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Clip content to mockup */
+        position: relative;
+        background-color: #ffffff; /* Light background */
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0; /* Prevent mockups from shrinking */
+      }
+      .mockup-content {
+        flex-grow: 1;
+        overflow-y: hidden; /* Strictly no scrollbars */
+        display: flex;
+        flex-direction: column;
+        color: #333333; /* Dark text for light background */
+      }
+      .glassmorphic-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1);
+      }
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .icon-button {
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      .icon-button img {
+        width: 24px;
+        height: 24px;
+      }
+      .device-item {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        margin: 0 16px 12px 16px;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+      }
+      .device-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+      }
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 12px;
+      }
+      .online {
+        background-color: #4ade80; /* Green */
+      }
+      .offline {
+        background-color: #f87171; /* Red */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Mockup 1: Device List Page -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <h1>我的设备</h1>
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/plus-circle.svg"
+              alt="Add Device"
+            />
+          </button>
+        </div>
+        <div class="p-4 flex-grow overflow-y-auto no-scrollbar">
+          <!-- Allow scroll for list, but hide bar -->
+          <div class="device-item glassmorphic-card">
+            <div class="status-dot online"></div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg"
+              alt="Smart Bulb"
+              class="w-8 h-8 mr-4 p-1 bg-blue-50 rounded-lg"
+            />
+            <div>
+              <h3 class="font-semibold text-lg text-gray-800">客厅智能灯</h3>
+              <p class="text-sm text-gray-500">在线</p>
+            </div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+              alt="Details"
+              class="w-6 h-6 ml-auto text-gray-400"
+            />
+          </div>
+          <div class="device-item glassmorphic-card">
+            <div class="status-dot offline"></div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/thermometer.svg"
+              alt="Thermostat"
+              class="w-8 h-8 mr-4 p-1 bg-blue-50 rounded-lg"
+            />
+            <div>
+              <h3 class="font-semibold text-lg text-gray-800">卧室恒温器</h3>
+              <p class="text-sm text-gray-500">离线</p>
+            </div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+              alt="Details"
+              class="w-6 h-6 ml-auto text-gray-400"
+            />
+          </div>
+          <div class="device-item glassmorphic-card">
+            <div class="status-dot online"></div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/camera.svg"
+              alt="Security Camera"
+              class="w-8 h-8 mr-4 p-1 bg-blue-50 rounded-lg"
+            />
+            <div>
+              <h3 class="font-semibold text-lg text-gray-800">门口摄像头</h3>
+              <p class="text-sm text-gray-500">在线 - 正在录制</p>
+            </div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+              alt="Details"
+              class="w-6 h-6 ml-auto text-gray-400"
+            />
+          </div>
+          <div class="device-item glassmorphic-card">
+            <div class="status-dot online"></div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/wind.svg"
+              alt="Smart Fan"
+              class="w-8 h-8 mr-4 p-1 bg-blue-50 rounded-lg"
+            />
+            <div>
+              <h3 class="font-semibold text-lg text-gray-800">书房风扇</h3>
+              <p class="text-sm text-gray-500">在线 - 低速</p>
+            </div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+              alt="Details"
+              class="w-6 h-6 ml-auto text-gray-400"
+            />
+          </div>
+          <div class="device-item glassmorphic-card">
+            <div class="status-dot online"></div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/lock.svg"
+              alt="Smart Lock"
+              class="w-8 h-8 mr-4 p-1 bg-blue-50 rounded-lg"
+            />
+            <div>
+              <h3 class="font-semibold text-lg text-gray-800">前门智能锁</h3>
+              <p class="text-sm text-gray-500">在线 - 已锁定</p>
+            </div>
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+              alt="Details"
+              class="w-6 h-6 ml-auto text-gray-400"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 2: Add Device Page -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>添加设备</h1>
+          <div></div>
+          <!-- Spacer -->
+        </div>
+        <div
+          class="p-6 flex flex-col items-center justify-center flex-grow bg-cover bg-center"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?light,technology');
+          "
+        >
+          <div class="glassmorphic-card p-8 w-full max-w-sm text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">选择添加方式</h2>
+
+            <div class="space-y-4">
+              <button
+                class="w-full flex items-center justify-between p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/scan-line.svg"
+                    alt="Scan QR"
+                    class="w-6 h-6 mr-3"
+                  />
+                  <span class="font-medium text-gray-800">扫描二维码</span>
+                </div>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Go"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </button>
+
+              <button
+                class="w-full flex items-center justify-between p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/wifi.svg"
+                    alt="WiFi"
+                    class="w-6 h-6 mr-3"
+                  />
+                  <span class="font-medium text-gray-800">搜索局域网设备</span>
+                </div>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Go"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </button>
+
+              <button
+                class="w-full flex items-center justify-between p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div class="flex items-center">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/list.svg"
+                    alt="Manual"
+                    class="w-6 h-6 mr-3"
+                  />
+                  <span class="font-medium text-gray-800"
+                    >手动选择设备类型</span
+                  >
+                </div>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Go"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </button>
+            </div>
+
+            <p class="text-sm text-gray-500 mt-8">
+              确保您的设备已开启并处于配对模式
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 3: Device Detail Page -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>客厅智能灯</h1>
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/settings-2.svg"
+              alt="Settings"
+            />
+          </button>
+        </div>
+
+        <div class="p-6 flex flex-col flex-grow">
+          <div
+            class="glassmorphic-card p-6 mb-6 flex flex-col items-center justify-center"
+            style="height: 200px"
+          >
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg"
+              alt="Light Bulb"
+              class="w-20 h-20 mb-4 p-4 bg-yellow-50 rounded-full"
+            />
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">已开启</h2>
+            <p class="text-sm text-gray-500">亮度: 75% | 色温: 暖光</p>
+          </div>
+
+          <div class="glassmorphic-card p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">快速控制</h3>
+            <div class="grid grid-cols-2 gap-4">
+              <button
+                class="p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
+              >
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/power.svg"
+                  alt="Power"
+                  class="w-6 h-6 mx-auto mb-2"
+                />
+                <span class="text-sm font-medium text-gray-700">开关</span>
+              </button>
+              <button
+                class="p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
+              >
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/sun.svg"
+                  alt="Brightness"
+                  class="w-6 h-6 mx-auto mb-2"
+                />
+                <span class="text-sm font-medium text-gray-700">亮度</span>
+              </button>
+              <button
+                class="p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
+              >
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/palette.svg"
+                  alt="Color"
+                  class="w-6 h-6 mx-auto mb-2"
+                />
+                <span class="text-sm font-medium text-gray-700">颜色</span>
+              </button>
+              <button
+                class="p-4 bg-white/80 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
+              >
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/clock.svg"
+                  alt="Schedule"
+                  class="w-6 h-6 mx-auto mb-2"
+                />
+                <span class="text-sm font-medium text-gray-700">定时</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="glassmorphic-card p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">设备信息</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600">设备名称</span>
+                <span class="text-gray-800">客厅智能灯</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">设备型号</span>
+                <span class="text-gray-800">SL-100</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">固件版本</span>
+                <span class="text-gray-800">v2.1.4</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">IP地址</span>
+                <span class="text-gray-800">192.168.1.105</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">MAC地址</span>
+                <span class="text-gray-800">A1:B2:C3:D4:E5:F6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mockup 4: Edit Device Page -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/arrow-left.svg"
+              alt="Back"
+            />
+          </button>
+          <h1>编辑设备</h1>
+          <div></div>
+          <!-- Spacer -->
+        </div>
+
+        <div
+          class="p-6 flex flex-col flex-grow bg-cover bg-center"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?light,settings');
+          "
+        >
+          <div class="glassmorphic-card p-8 w-full max-w-sm mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+              修改设备信息
+            </h2>
+
+            <div class="space-y-6">
+              <div>
+                <label
+                  for="deviceName"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >设备名称</label
+                >
+                <input
+                  type="text"
+                  id="deviceName"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 glassmorphic-card"
+                  value="客厅智能灯"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="deviceType"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >设备类型</label
+                >
+                <select
+                  id="deviceType"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 glassmorphic-card"
+                >
+                  <option value="light">智能灯</option>
+                  <option value="thermostat">恒温器</option>
+                  <option value="camera">摄像头</option>
+                  <option value="fan">风扇</option>
+                  <option value="lock">智能锁</option>
+                  <!-- Add more device types as needed -->
+                </select>
+              </div>
+
+              <div>
+                <label
+                  for="deviceLocation"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >设备位置/房间</label
+                >
+                <input
+                  type="text"
+                  id="deviceLocation"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 glassmorphic-card"
+                  value="客厅"
+                />
+              </div>
+
+              <button
+                class="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors shadow-md"
+              >
+                保存修改
+              </button>
+
+              <button
+                class="w-full bg-red-500 text-white p-3 rounded-lg font-semibold hover:bg-red-600 transition-colors shadow-md"
+              >
+                删除设备
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
