@@ -1,19 +1,20 @@
 import { View, Text, Swiper, SwiperItem } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
 import { AtCard } from "taro-ui";
+import { getNewsList } from "../../services/news";
 import "./index.scss";
 
 export default function Index() {
-  useLoad(() => {
-    console.log("Page loaded.");
-  });
+  const [swiperData, setSwiperData] = useState([]);
 
-  // 轮播图数据
-  const swiperData = [
-    { id: 1, title: "智能家居", desc: "打造智能生活" },
-    { id: 2, title: "节能环保", desc: "绿色智能家居" },
-    { id: 3, title: "安全防护", desc: "守护家庭安全" },
-  ];
+  useLoad(() => {
+    // 获取新闻列表数据
+    getNewsList().then((res) => {
+      if (res && res.data) {
+        setSwiperData(res.data);
+      }
+    });
+  });
 
   // 设备列表数据
   const devices = [
@@ -81,7 +82,7 @@ export default function Index() {
             <SwiperItem key={item.id} className="swiper-item">
               <View className="swiper-card">
                 <Text className="card-title">{item.title}</Text>
-                <Text className="card-desc">{item.desc}</Text>
+                <Text className="card-desc">{item.content}</Text>
               </View>
             </SwiperItem>
           ))}
