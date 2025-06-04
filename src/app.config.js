@@ -5,6 +5,8 @@ export default defineAppConfig({
     "pages/my/index",
     "pages/scene/index",
     "pages/device/index",
+    "pages/scene/add/index",
+    "pages/scene/detail/index",
   ],
   window: {
     backgroundTextStyle: "light",
