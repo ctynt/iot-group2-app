@@ -1,5 +1,5 @@
 import { defineConfig } from '@tarojs/cli'
-
+import path from 'path'
 import devConfig from './dev'
 import prodConfig from './prod'
 
@@ -28,6 +28,9 @@ export default defineConfig(async (merge, { command, mode }) => {
     },
     framework: 'react',
     compiler: 'vite',
+    alias: {
+      '@': path.resolve(__dirname, '..', 'src')
+    },
     mini: {
       postcss: {
         pxtransform: {
@@ -48,7 +51,6 @@ export default defineConfig(async (merge, { command, mode }) => {
     h5: {
       publicPath: '/',
       staticDirectory: 'static',
-
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
