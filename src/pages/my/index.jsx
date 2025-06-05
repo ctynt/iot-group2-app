@@ -77,6 +77,13 @@ export default function My() {
     });
   };
 
+  // 处理编辑资料点击事件
+  const handleEditProfile = () => {
+    Taro.navigateTo({
+      url: "/pages/editUser/index"
+    });
+  };
+
   const handleClickLogin = () => {
     Taro.navigateTo({
       url: "/pages/login/index",
@@ -148,7 +155,7 @@ export default function My() {
                 {userInfo.nickname || "未设置昵称"}
               </Text>
               <Text className="user-desc">智能家居爱好者</Text>
-              <View className="edit-profile">
+              <View className="edit-profile" onClick={handleEditProfile}>
                 <AtIcon value="edit" size="15" color="#4594D5"></AtIcon>
                 <Text className="edit-text">编辑资料</Text>
               </View>
