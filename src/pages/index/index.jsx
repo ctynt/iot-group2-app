@@ -1,5 +1,6 @@
 import { View, Text, Swiper, SwiperItem } from "@tarojs/components";
-import Taro, { useLoad } from "@tarojs/taro";
+import { useLoad } from "@tarojs/taro";
+import React, { useState } from "react";
 import { AtCard } from "taro-ui";
 import { getNewsList } from "../../services/news";
 import "./index.scss";
