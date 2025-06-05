@@ -1,0 +1,64 @@
+.device-detail {
+  padding: 20px;
+
+  .device-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+
+      .device-name {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .device-status {
+        font-size: 24px;
+        padding: 8px 16px;
+        border-radius: 20px;
+
+        &.online {
+          color: #10b981;
+          background: rgba(16, 185, 129, 0.1);
+        }
+
+        &.offline {
+          color: #ef4444;
+          background: rgba(239, 68, 68, 0.1);
+        }
+      }
+    }
+
+    .card-content {
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid #f3f4f6;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .label {
+          font-size: 28px;
+          color: #666;
+        }
+
+        .value {
+          font-size: 28px;
+          color: #333;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
