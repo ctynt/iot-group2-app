@@ -76,5 +76,19 @@
         }
       }
     }
+    .form-header {
+      margin: 0 32px 32px;
+  
+      .scan-button {
+        background-color: #4594d5;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+  
+        &::after {
+          border: none;
+        }
+      }
+    }
   }
 }
