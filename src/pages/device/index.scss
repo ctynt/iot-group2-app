@@ -1,37 +1,40 @@
 .device-detail {
-  padding: 20px;
+  padding: 32px;
+  min-height: 100vh;
+  background-color: #f5f5f5;
 
+  // 保持设备详情卡片样式不变
   .device-card {
-    background: #fff;
+    background-color: #fff;
     border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
 
       .device-name {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: bold;
         color: #333;
       }
 
       .device-status {
-        font-size: 24px;
-        padding: 8px 16px;
-        border-radius: 20px;
+        font-size: 28px;
+        padding: 8px 24px;
+        border-radius: 24px;
 
         &.online {
-          color: #10b981;
-          background: rgba(16, 185, 129, 0.1);
+          background-color: #e8f5e9;
+          color: #4caf50;
         }
 
         &.offline {
-          color: #ef4444;
-          background: rgba(239, 68, 68, 0.1);
+          background-color: #ffebee;
+          color: #f44336;
         }
       }
     }
@@ -41,24 +44,152 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-bottom: 24px;
         padding: 16px 0;
-        border-bottom: 1px solid #f3f4f6;
+        border-bottom: 1px solid #eee;
 
         &:last-child {
           border-bottom: none;
         }
 
         .label {
-          font-size: 28px;
+          font-size: 32px;
           color: #666;
         }
 
         .value {
-          font-size: 28px;
+          font-size: 32px;
           color: #333;
-          font-weight: 500;
         }
       }
     }
+
+    .card-footer {
+      margin-top: 48px;
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 24px;
+      margin-top: 48px;
+
+      .at-button {
+        flex: 1;
+      }
+    }
+  }
+
+  // 修改编辑表单样式，与新增设备页面保持一致
+  .at-form {
+    background-color: transparent;
+    padding: 0;
+
+    .at-input,
+    .device-type-picker {
+      margin-bottom: 24px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 0 16px;
+      height: 108px;
+      display: flex;
+      align-items: center;
+
+      &::after {
+        border: none;
+      }
+    }
+
+    .at-input {
+      .at-input__title {
+        font-size: 32px;
+        color: #333;
+        width: 180px;
+      }
+
+      .at-input__input {
+        font-size: 32px;
+        color: #666;
+        padding-left: 0;
+      }
+    }
+    .picker {
+      margin-left: 32px;
+    }
+    .device-type-picker {
+      .picker-view {
+        // margin: 0 32px;
+        display: flex;
+        align-items: center;
+
+        .picker-label {
+          font-size: 32px;
+          color: #333;
+          width: 180px;
+        }
+
+        .picker-value {
+          flex: 1;
+          font-size: 32px;
+          color: #666;
+          text-align: left;
+          padding-left: 0;
+        }
+      }
+    }
+
+    .button-group {
+      display: flex;
+      gap: 24px;
+      margin-top: 48px;
+      padding: 0 32px;
+
+      .at-button {
+        flex: 1;
+        border-radius: 8px;
+        background-color: #4594d5;
+        border: none;
+
+        &--primary {
+          background-color: #4594d5;
+
+          &.at-button--disabled {
+            background-color: #a8d4f2;
+          }
+        }
+      }
+    }
+  }
+}
+
+.device-type-picker {
+  background-color: #fff;
+  padding: 24px;
+  margin-bottom: 24px;
+
+  .picker-view {
+    display: flex;
+    align-items: center;
+
+    .picker-label {
+      width: 180px;
+      font-size: 32px;
+      color: #333;
+    }
+
+    .picker-value {
+      flex: 1;
+      font-size: 32px;
+      color: #333;
+    }
+  }
+}
+
+.button-group {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+
+  .at-button {
+    flex: 1;
   }
 }
