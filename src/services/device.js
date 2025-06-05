@@ -36,3 +36,12 @@ export function deleteDevice(id) {
     method: "POST",
   });
 }
+
+// 修改设备
+export function editDevice(params) {
+  return http({
+    url: "/iot/api/device/edit",
+    method: "POST",
+    data: params,
+  });
+}
