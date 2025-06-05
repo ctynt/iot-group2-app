@@ -7,6 +7,7 @@ export default defineAppConfig({
     "pages/device/index",
     "pages/scene/add/index",
     "pages/scene/detail/index",
+    "pages/device/add/index", // Add this new route
   ],
   window: {
     backgroundTextStyle: "light",
