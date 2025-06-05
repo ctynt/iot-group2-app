@@ -1,5 +1,5 @@
 import { View, Text, Image } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useDidShow } from "@tarojs/taro";
 import {
   AtIcon,
   AtAvatar,
@@ -7,9 +7,10 @@ import {
   AtListItem,
   AtGrid,
   AtButton,
+  AtMessage,
 } from "taro-ui";
 import { useAppSelector, useAppDispatch } from "@/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserInfo } from "@/service/user";
 import { setUserInfo, clearUserInfo } from "@/store/user";
 import "./index.scss";
@@ -17,22 +18,63 @@ import "./index.scss";
 export default function My() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // 用于强制刷新
 
+  // 获取用户信息的函数
+  const fetchUserInfo = async () => {
+    if (!Taro.getStorageSync("token")) return;
+    
+    setLoading(true);
+    try {
+      const res = await getUserInfo();
+      if (res) {
+        // 确保avatar字段有值，避免显示问题
+        if (!res.avatar) {
+          res.avatar = "https://img.yzcdn.cn/vant/cat.jpeg";
+        }
+        // 确保所有必要字段都有值
+        const updatedInfo = {
+          ...res,
+          // 保留accessToken，避免被覆盖
+          accessToken: userInfo.accessToken || Taro.getStorageSync("token")
+        };
+        dispatch(setUserInfo(updatedInfo));
+      }
+    } catch (error) {
+      console.error("获取用户信息失败:", error);
+      Taro.showToast({
+        title: "获取用户信息失败",
+        icon: "none",
+        duration: 2000
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 首次加载时获取用户信息
   useEffect(() => {
     if (Taro.getStorageSync("token")) {
       fetchUserInfo();
     }
-  }, []);
+  }, [refreshKey]); // 添加refreshKey依赖，支持手动刷新
 
-  const fetchUserInfo = async () => {
-    try {
-      const res = await getUserInfo();
-      if (res) {
-        dispatch(setUserInfo(res));
-      }
-    } catch (error) {
-      console.error("获取用户信息失败:", error);
+  // 每次页面显示时获取最新用户信息
+  useDidShow(() => {
+    if (Taro.getStorageSync("token")) {
+      fetchUserInfo();
     }
+  });
+
+  // 手动刷新
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+    Taro.showToast({
+      title: "刷新中...",
+      icon: "loading",
+      duration: 1000
+    });
   };
 
   const handleClickLogin = () => {
@@ -51,9 +93,11 @@ export default function My() {
           Taro.removeStorageSync("token");
           // 清除用户信息
           dispatch(clearUserInfo());
-          // 跳转到登录页
-          Taro.navigateTo({
-            url: "/pages/login/index",
+          // 显示提示
+          Taro.showToast({
+            title: "已退出登录",
+            icon: "success",
+            duration: 2000
           });
         }
       },
@@ -85,6 +129,11 @@ export default function My() {
 
   return (
     <View className="my-container">
+      {/* 顶部刷新按钮 */}
+      <View className="header-actions">
+        <AtIcon value="refresh" size="24" color="#4594D5" onClick={handleRefresh}></AtIcon>
+      </View>
+
       {/* 用户信息卡片 */}
       <View className="user-card">
         {userInfo && userInfo.id > 0 ? (
@@ -106,19 +155,24 @@ export default function My() {
             </View>
           </View>
         ) : (
-          <View className="user-info">
-            <AtAvatar circle image="https://jdc.jd.com/img/200" size="large" />
-            <View className="user-detail">
-              <Text className="username">未登录</Text>
-              <AtButton onClick={handleClickLogin} type="primary" size="small">
-                前往登录
+          <View className="user-info-not-logged">
+            <View className="not-logged-content">
+              <AtAvatar circle image="https://img.yzcdn.cn/vant/cat.jpeg" size="large" />
+              <View className="user-detail">
+                <Text className="username">欢迎使用智能家居</Text>
+                <Text className="login-tip">登录后体验更多功能</Text>
+              </View>
+            </View>
+            <View className="login-actions">
+              <AtButton onClick={handleClickLogin} type="primary" size="normal">
+                登录/注册
               </AtButton>
             </View>
           </View>
         )}
       </View>
 
-      {userInfo && userInfo.id > 0 && (
+      {userInfo && userInfo.id > 0 ? (
         <>
           {/* 账号与安全 */}
           <View className="section-card">
@@ -180,6 +234,30 @@ export default function My() {
             </View>
           </View>
         </>
+      ) : (
+        <View className="not-logged-features">
+          <View className="section-card">
+            <Text className="section-title">登录后可使用的功能</Text>
+            <View className="feature-grid">
+              <View className="feature-item">
+                <AtIcon value="home" size="30" color="#4594D5"></AtIcon>
+                <Text className="feature-text">智能家居控制</Text>
+              </View>
+              <View className="feature-item">
+                <AtIcon value="settings" size="30" color="#4594D5"></AtIcon>
+                <Text className="feature-text">设备管理</Text>
+              </View>
+              <View className="feature-item">
+                <AtIcon value="lightning-bolt" size="30" color="#4594D5"></AtIcon>
+                <Text className="feature-text">场景自动化</Text>
+              </View>
+              <View className="feature-item">
+                <AtIcon value="analytics" size="30" color="#4594D5"></AtIcon>
+                <Text className="feature-text">数据分析</Text>
+              </View>
+            </View>
+          </View>
+        </View>
       )}
     </View>
   );

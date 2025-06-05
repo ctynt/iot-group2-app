@@ -6,6 +6,7 @@ export default defineAppConfig({
     "pages/forgot-password/index",
     "pages/my/index",
     "pages/scene/index",
+    "pages/editUser/index",
   ],
   window: {
     backgroundTextStyle: "light",
