@@ -1,6 +1,8 @@
 import Taro from "@tarojs/taro";
 
+
 const BASE_URL = process.env.TARO_APP_API_BASE_URL || 'http://localhost:8080';
+
 
 /**
  * 通用 HTTP 请求函数
@@ -9,16 +11,17 @@ const BASE_URL = process.env.TARO_APP_API_BASE_URL || 'http://localhost:8080';
  * @returns {Promise<T>}
  */
 export const http = async (config) => {
-  const { url, method = 'GET', data, params, headers = {} } = config;
 
-  // 获取 token
-  const token = Taro.getStorageSync('token');
+  const { url, method = "GET", data, params, headers = {} } = config;
+
+  // 添加token到请求头
+  const token = Taro.getStorageSync("token");
   if (token) {
-    headers.Authorization = `Bearer ${token}`;
+    headers.Authorization = `${token}`;
   }
 
-  // 构建完整 URL（含 query 参数）
-  let fullUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
+  // 构建完整URL
+  let fullUrl = `${BASE_URL}${url}`;
   if (params) {
     const searchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
@@ -32,10 +35,10 @@ export const http = async (config) => {
       url: fullUrl,
       method,
       header: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
         ...headers,
       },
-      data,
+      data: data ? JSON.stringify(data) : undefined,
     });
 
     const result = response.data;
@@ -58,6 +61,7 @@ export const http = async (config) => {
 
     return result.data;
   } catch (error) {
+
     console.error('请求错误:', error);
     Taro.showToast({ icon: 'none', title: error.message || '网络异常' });
     throw error;
