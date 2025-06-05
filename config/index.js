@@ -1,7 +1,7 @@
-import { defineConfig } from "@tarojs/cli";
-
-import devConfig from "./dev";
-import prodConfig from "./prod";
+import { defineConfig } from '@tarojs/cli'
+import path from 'path'
+import devConfig from './dev'
+import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
@@ -23,8 +23,11 @@ export default defineConfig(async (merge, { command, mode }) => {
       patterns: [],
       options: {},
     },
-    framework: "react",
-    compiler: "vite",
+    framework: 'react',
+    compiler: 'vite',
+    alias: {
+      '@': path.resolve(__dirname, '..', 'src')
+    },
     mini: {
       postcss: {
         pxtransform: {
@@ -41,9 +44,8 @@ export default defineConfig(async (merge, { command, mode }) => {
       },
     },
     h5: {
-      publicPath: "/",
-      staticDirectory: "static",
-
+      publicPath: '/',
+      staticDirectory: 'static',
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: "css/[name].[hash].css",

@@ -1,66 +1,88 @@
 import Taro from "@tarojs/taro";
 
-const baseURL = process.env.TARO_APP_API_BASE_URL;
+const BASE_URL = process.env.TARO_APP_API_BASE_URL || 'http://localhost:8080';
 
-export const http = (options) => {
-  return new Promise((resolve, reject) => {
-    Taro.request({
-      ...options,
-      success(res) {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          if (res.data.code === 401) {
-            Taro.showToast({
-              icon: "error",
-              title: res.data.msg || "请求错误",
-            });
-            Taro.navigateTo({ url: "/pages/login/index" });
-            reject(res);
-          } else if (res.data.code === 0) {
-            resolve(res.data);
-          } else {
-            Taro.showToast({
-              icon: "error",
-              title: res.data.msg || "请求错误",
-            });
-          }
-        } else {
-          Taro.showToast({
-            icon: "error",
-            title: res.data.msg || "请求错误",
-          });
-          reject(res);
-        }
-      },
-      fail(err) {
-        Taro.showToast({
-          icon: "none",
-          title: "网络错误",
-        });
-        reject(err);
-      },
+/**
+ * 通用 HTTP 请求函数
+ * @template T
+ * @param {HttpConfig} config - 请求配置
+ * @returns {Promise<T>}
+ */
+export const http = async (config) => {
+  const { url, method = 'GET', data, params, headers = {} } = config;
+
+  // 获取 token
+  const token = Taro.getStorageSync('token');
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  // 构建完整 URL（含 query 参数）
+  let fullUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
+  if (params) {
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      searchParams.append(key, value);
     });
-  });
+    fullUrl += `?${searchParams.toString()}`;
+  }
+
+  try {
+    const response = await Taro.request({
+      url: fullUrl,
+      method,
+      header: {
+        'content-type': 'application/json',
+        ...headers,
+      },
+      data,
+    });
+
+    const result = response.data;
+
+    // 状态码异常处理
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      Taro.showToast({ icon: 'error', title: result.msg || '请求失败' });
+      throw new Error(result.msg || '请求失败');
+    }
+
+    // 自定义业务码处理
+    if (result.code === 401) {
+      Taro.showToast({ icon: 'error', title: result.msg || '未登录' });
+      Taro.navigateTo({ url: '/pages/login/index' });
+      throw new Error('未登录');
+    } else if (result.code !== 0) {
+      Taro.showToast({ icon: 'error', title: result.msg || '请求错误' });
+      throw new Error(result.msg || '请求错误');
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error('请求错误:', error);
+    Taro.showToast({ icon: 'none', title: error.message || '网络异常' });
+    throw error;
+  }
 };
 
-const httpInterceptor = function (chain) {
+/**
+ * 请求拦截器：处理 baseURL 拼接和 token 注入
+ */
+const httpInterceptor = (chain) => {
   const requestParams = chain.requestParams;
-  const { url } = requestParams;
 
-  if (!url.startsWith("http")) {
-    requestParams.url = baseURL + url;
+  if (!requestParams.url.startsWith('http')) {
+    requestParams.url = BASE_URL + requestParams.url;
   }
 
-  requestParams.header = {
-    ...requestParams.header,
-  };
-
-  const token = Taro.getStorageSync("token") || "no-token";
+  const token = Taro.getStorageSync('token');
   if (token) {
-    requestParams.header.Authorization = token;
+    requestParams.header = {
+      ...requestParams.header,
+      Authorization: `Bearer ${token}`,
+    };
   }
-  return chain.proceed(requestParams).then((res) => {
-    return res;
-  });
+
+  return chain.proceed(requestParams).then((res) => res);
 };
 
 Taro.addInterceptor(httpInterceptor);
