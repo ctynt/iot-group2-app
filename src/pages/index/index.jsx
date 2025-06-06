@@ -16,8 +16,11 @@ export default function Index() {
       page: 1,
       limit: 10,
     }).then((res) => {
-      if (res && res.code === 0 && res.data && res.data.list) {
-        setDevices(res.data.list);
+      // 修改前: if (res && res.code === 0 && res.data && res.data.list)
+      // 修改后: 直接使用返回的数据，因为 http.js 已经返回了 result.data
+      if (res && res.list) {
+        setDevices(res.list);
+        console.log(res.list);
       } else {
         setDevices([]);
       }
@@ -27,8 +30,10 @@ export default function Index() {
   useLoad(() => {
     // 获取新闻列表数据
     getNewsList().then((res) => {
-      if (res && res.data) {
-        setSwiperData(res.data);
+      // 修改前: if (res && res.data)
+      // 修改后: 直接使用返回的数据
+      if (res) {
+        setSwiperData(res);
       }
     });
 
@@ -57,24 +62,18 @@ export default function Index() {
       success: function (res) {
         if (res.confirm) {
           deleteDevice(device.id)
-            .then((res) => {
-              if (res && res.code === 0) {
-                Taro.showToast({
-                  title: "删除成功",
-                  icon: "success",
-                });
-                // 重新获取设备列表
-                fetchDeviceList();
-              } else {
-                Taro.showToast({
-                  title: "删除失败",
-                  icon: "error",
-                });
-              }
-            })
-            .catch(() => {
+            .then(() => {
+              // 如果代码执行到这里，说明请求成功
               Taro.showToast({
-                title: "删除失败",
+                title: "删除成功",
+                icon: "success",
+              });
+              // 重新获取设备列表
+              fetchDeviceList();
+            })
+            .catch((error) => {
+              Taro.showToast({
+                title: error.message || "删除失败",
                 icon: "error",
               });
             });

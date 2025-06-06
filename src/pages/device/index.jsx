@@ -31,13 +31,15 @@ export default function Index() {
     const { deviceId } = router.params;
     if (deviceId) {
       getDeviceDetail(deviceId).then((res) => {
-        if (res.code === 0 && res.data) {
-          setDevice(res.data);
+        // 修改前: if (res.code === 0 && res.data)
+        // 修改后: 直接使用返回的数据
+        if (res) {
+          setDevice(res);
           setEditForm({
-            id: res.data.id,
-            deviceId: res.data.deviceId,
-            name: res.data.name,
-            type: res.data.type,
+            id: res.id,
+            deviceId: res.deviceId,
+            name: res.name,
+            type: res.type,
           });
         } else {
           console.error("获取设备详情失败:", res);
@@ -88,7 +90,9 @@ export default function Index() {
   const handleSave = async () => {
     try {
       const res = await editDevice(editForm);
-      if (res && res.code === 0) {
+      // 修改前: if (res && res.code === 0)
+      // 修改后: 直接使用返回的数据
+      if (res) {
         Taro.showToast({
           title: "修改成功",
           icon: "success",
@@ -96,8 +100,10 @@ export default function Index() {
         setIsEditing(false);
         // 刷新设备信息
         const detailRes = await getDeviceDetail(device.deviceId);
-        if (detailRes.code === 0 && detailRes.data) {
-          setDevice(detailRes.data);
+        // 修改前: if (detailRes.code === 0 && detailRes.data)
+        // 修改后: 直接使用返回的数据
+        if (detailRes) {
+          setDevice(detailRes);
         }
       } else {
         Taro.showToast({
