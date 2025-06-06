@@ -30,6 +30,61 @@ export default function Index() {
     return value;
   };
 
+  const handleScanCode = async () => {
+    try {
+      const { result } = await Taro.scanCode({
+        onlyFromCamera: true,
+        scanType: ["qrCode"],
+      });
+
+      try {
+        const qrData = JSON.parse(result);
+        if (qrData.deviceId && qrData.name && qrData.type) {
+          // 验证设备类型是否有效
+          const isValidType = deviceTypes.some(
+            (t) => t.value === Number(qrData.type)
+          );
+          if (!isValidType) {
+            Taro.showToast({
+              title: "无效的设备类型",
+              icon: "none",
+            });
+            return;
+          }
+
+          setDeviceInfo({
+            deviceId: qrData.deviceId,
+            name: qrData.name,
+            type: Number(qrData.type),
+          });
+
+          Taro.showToast({
+            title: "扫描成功",
+            icon: "success",
+          });
+        } else {
+          Taro.showToast({
+            title: "二维码格式错误",
+            icon: "none",
+          });
+        }
+      } catch (error) {
+        Taro.showToast({
+          title: "二维码格式错误",
+          icon: "none",
+        });
+      }
+    } catch (error) {
+      if (error.errMsg.includes("cancel")) {
+        return;
+      }
+      Taro.showToast({
+        title: "扫描失败",
+        icon: "none",
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     if (!deviceInfo.deviceId || !deviceInfo.name || !deviceInfo.type) {
       Taro.showToast({
@@ -66,6 +121,11 @@ export default function Index() {
   return (
     <View className="add-device">
       <AtForm>
+        <View className="form-header">
+          <AtButton className="scan-button" onClick={handleScanCode}>
+            扫描二维码
+          </AtButton>
+        </View>
         <AtInput
           name="deviceId"
           title="设备ID"
@@ -103,8 +163,8 @@ export default function Index() {
             </View>
           </Picker>
         </View>
-        <AtButton type="primary" onClick={handleSubmit} disabled={!isFormValid}>
-          提交
+        <AtButton type="primary" disabled={!isFormValid} onClick={handleSubmit}>
+          确认添加
         </AtButton>
       </AtForm>
     </View>
