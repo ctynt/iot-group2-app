@@ -1,0 +1,53 @@
+.scene-detail {
+  padding: 40px;
+
+  .header {
+    margin-bottom: 60px;
+
+    .title {
+      font-size: 48px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 28px;
+      color: #666;
+    }
+  }
+
+  .section {
+    margin-bottom: 60px;
+
+    .section-title {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      display: block;
+    }
+  }
+
+  .device-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .device-item {
+    background: #f5f7fa;
+    padding: 20px 40px;
+    border-radius: 30px;
+    font-size: 28px;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .at-button {
+      margin: 0;
+    }
+  }
+}

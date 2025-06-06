@@ -2,8 +2,15 @@ export default defineAppConfig({
   pages: [
     "pages/index/index",
     "pages/login/index",
+    "pages/register/index",
+    "pages/forgot-password/index",
     "pages/my/index",
+    "pages/editUser/index",
     "pages/scene/index",
+    "pages/device/index",
+    "pages/scene/add/index",
+    "pages/scene/detail/index",
+    "pages/device/add/index", 
   ],
   window: {
     backgroundTextStyle: "light",
