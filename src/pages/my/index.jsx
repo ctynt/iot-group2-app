@@ -24,7 +24,7 @@ export default function My() {
   // 获取用户信息的函数
   const fetchUserInfo = async () => {
     if (!Taro.getStorageSync("token")) return;
-    
+
     setLoading(true);
     try {
       const res = await getUserInfo();
@@ -37,7 +37,7 @@ export default function My() {
         const updatedInfo = {
           ...res,
           // 保留accessToken，避免被覆盖
-          accessToken: userInfo.accessToken || Taro.getStorageSync("token")
+          accessToken: userInfo.accessToken || Taro.getStorageSync("token"),
         };
         dispatch(setUserInfo(updatedInfo));
       }
@@ -46,7 +46,7 @@ export default function My() {
       Taro.showToast({
         title: "获取用户信息失败",
         icon: "none",
-        duration: 2000
+        duration: 2000,
       });
     } finally {
       setLoading(false);
@@ -69,18 +69,18 @@ export default function My() {
 
   // 手动刷新
   const handleRefresh = () => {
-    setRefreshKey(prev => prev + 1);
+    setRefreshKey((prev) => prev + 1);
     Taro.showToast({
       title: "刷新中...",
       icon: "loading",
-      duration: 1000
+      duration: 1000,
     });
   };
 
   // 处理编辑资料点击事件
   const handleEditProfile = () => {
     Taro.navigateTo({
-      url: "/pages/editUser/index"
+      url: "/pages/editUser/index",
     });
   };
 
@@ -104,7 +104,7 @@ export default function My() {
           Taro.showToast({
             title: "已退出登录",
             icon: "success",
-            duration: 2000
+            duration: 2000,
           });
         }
       },
@@ -138,7 +138,12 @@ export default function My() {
     <View className="my-container">
       {/* 顶部刷新按钮 */}
       <View className="header-actions">
-        <AtIcon value="refresh" size="24" color="#4594D5" onClick={handleRefresh}></AtIcon>
+        <AtIcon
+          value="refresh"
+          size="24"
+          color="#4594D5"
+          onClick={handleRefresh}
+        ></AtIcon>
       </View>
 
       {/* 用户信息卡片 */}
@@ -164,7 +169,11 @@ export default function My() {
         ) : (
           <View className="user-info-not-logged">
             <View className="not-logged-content">
-              <AtAvatar circle image="https://img.yzcdn.cn/vant/cat.jpeg" size="large" />
+              <AtAvatar
+                circle
+                image="https://img.yzcdn.cn/vant/cat.jpeg"
+                size="large"
+              />
               <View className="user-detail">
                 <Text className="username">欢迎使用智能家居</Text>
                 <Text className="login-tip">登录后体验更多功能</Text>
@@ -255,7 +264,11 @@ export default function My() {
                 <Text className="feature-text">设备管理</Text>
               </View>
               <View className="feature-item">
-                <AtIcon value="lightning-bolt" size="30" color="#4594D5"></AtIcon>
+                <AtIcon
+                  value="lightning-bolt"
+                  size="30"
+                  color="#4594D5"
+                ></AtIcon>
                 <Text className="feature-text">场景自动化</Text>
               </View>
               <View className="feature-item">
