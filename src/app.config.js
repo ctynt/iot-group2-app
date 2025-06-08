@@ -10,7 +10,8 @@ export default defineAppConfig({
     "pages/device/index",
     "pages/scene/add/index",
     "pages/scene/detail/index",
-    "pages/device/add/index", 
+    "pages/scene/edit/index", // 添加修改场景页面路由
+    "pages/device/add/index",
   ],
   window: {
     backgroundTextStyle: "light",
