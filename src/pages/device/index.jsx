@@ -31,13 +31,15 @@ export default function Index() {
     const { deviceId } = router.params;
     if (deviceId) {
       getDeviceDetail(deviceId).then((res) => {
-        if (res.code === 0 && res.data) {
-          setDevice(res.data);
+        // 修改前: if (res.code === 0 && res.data)
+        // 修改后: 直接使用返回的数据
+        if (res) {
+          setDevice(res);
           setEditForm({
-            id: res.data.id,
-            deviceId: res.data.deviceId,
-            name: res.data.name,
-            type: res.data.type,
+            id: res.id,
+            deviceId: res.deviceId,
+            name: res.name,
+            type: res.type,
           });
         } else {
           console.error("获取设备详情失败:", res);
@@ -88,26 +90,21 @@ export default function Index() {
   const handleSave = async () => {
     try {
       const res = await editDevice(editForm);
-      if (res && res.code === 0) {
-        Taro.showToast({
-          title: "修改成功",
-          icon: "success",
-        });
-        setIsEditing(false);
-        // 刷新设备信息
-        const detailRes = await getDeviceDetail(device.deviceId);
-        if (detailRes.code === 0 && detailRes.data) {
-          setDevice(detailRes.data);
-        }
-      } else {
-        Taro.showToast({
-          title: "修改失败",
-          icon: "error",
-        });
+      // 如果代码执行到这里，说明请求成功
+      Taro.showToast({
+        title: "修改成功",
+        icon: "success",
+      });
+      setIsEditing(false);
+      // 刷新设备信息
+      const detailRes = await getDeviceDetail(device.deviceId);
+      if (detailRes) {
+        setDevice(detailRes);
       }
     } catch (error) {
+      // 添加错误处理，显示错误提示
       Taro.showToast({
-        title: "修改失败",
+        title: error.message || "修改失败",
         icon: "error",
       });
     }

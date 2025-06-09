@@ -42,7 +42,7 @@ export default function Index() {
         if (qrData.deviceId && qrData.name && qrData.type) {
           // 验证设备类型是否有效
           const isValidType = deviceTypes.some(
-            (t) => t.value === Number(qrData.type)
+            (t) => t.value === Number(qrData.type),
           );
           if (!isValidType) {
             Taro.showToast({
@@ -96,21 +96,16 @@ export default function Index() {
 
     try {
       const res = await addDevice(deviceInfo);
-      if (res && res.code === 0) {
-        Taro.showToast({
-          title: "添加成功",
-          icon: "success",
-        });
-        Taro.navigateBack();
-      } else {
-        Taro.showToast({
-          title: "添加失败",
-          icon: "error",
-        });
-      }
-    } catch (error) {
+      // 如果代码执行到这里，说明请求成功
       Taro.showToast({
-        title: "添加失败",
+        title: "添加成功",
+        icon: "success",
+      });
+      Taro.navigateBack();
+    } catch (error) {
+      // 捕获并处理异常
+      Taro.showToast({
+        title: error.message || "添加失败",
         icon: "error",
       });
     }
