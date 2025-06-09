@@ -10,6 +10,7 @@ const SmartLighting = ({ sceneId, sceneName = "智能照明", deviceId }) => {
   // 处理开关灯
   const toggleLight = () => {
     const newStatus = !isOn;
+
     setIsOn(newStatus);
     // 如果有设备ID，则控制设备；否则控制场景
     if (deviceId) {
