@@ -9,6 +9,7 @@ import {
 } from "../../../services/scene";
 import { getDeviceList } from "../../../services/device";
 import { useAppSelector } from "@/store";
+import SmartLighting from "../../../components/SmartLighting";
 import "./index.scss";
 
 export default function SceneDetail() {
@@ -260,6 +261,26 @@ export default function SceneDetail() {
         <Text>{error || "未找到场景信息"}</Text>
         <AtButton onClick={() => Taro.navigateBack()}>返回</AtButton>
       </View>
+    );
+  }
+
+  // 如果是智能照明场景，显示SmartLighting组件
+  if (scene.type === "3" && !isEditing) {
+    // 获取场景关联的设备ID列表
+    const deviceIds =
+      scene.devices && Array.isArray(scene.devices)
+        ? scene.devices.map((device) => device.deviceId || device.id)
+        : [];
+
+    // 传递第一个设备ID（如果存在）给SmartLighting组件
+    const primaryDeviceId = deviceIds.length > 0 ? deviceIds[0] : "";
+
+    return (
+      <SmartLighting
+        sceneId={sceneId}
+        sceneName={scene.name}
+        deviceId={primaryDeviceId}
+      />
     );
   }
 
