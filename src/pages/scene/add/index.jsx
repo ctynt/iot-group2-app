@@ -1,10 +1,11 @@
 import { View, Text } from "@tarojs/components";
 import { AtInput, AtTextarea, AtButton, AtForm } from "taro-ui";
 import { useState, useEffect } from "react";
+import { useAppSelector } from "@/store";
 import Taro from "@tarojs/taro";
 import { addScene } from "../../../services/scene";
 import { getDeviceList } from "../../../services/device";
-import { useAppSelector } from "@/store";
+
 import "./index.scss";
 
 export default function AddScene() {
@@ -122,23 +123,23 @@ export default function AddScene() {
   };
 
   return (
-    <View className="add-scene-page">
+    <View className='add-scene-page'>
       <AtForm>
-        <View className="form-card">
-          <View className="input-group">
-            <Text className="label">场景名称</Text>
+        <View className='form-card'>
+          <View className='input-group'>
+            <Text className='label'>场景名称</Text>
             <AtInput
-              className="input"
-              type="text"
-              placeholder="给场景起个名字"
+              className='input'
+              type='text'
+              placeholder='给场景起个名字'
               value={sceneName}
               onChange={(value) => setSceneName(value)}
             />
           </View>
 
-          <View className="input-group">
-            <Text className="label">场景类型</Text>
-            <View className="type-grid">
+          <View className='input-group'>
+            <Text className='label'>场景类型</Text>
+            <View className='type-grid'>
               {sceneTypes.map((type) => (
                 <View
                   key={type.id}
@@ -146,18 +147,18 @@ export default function AddScene() {
                   onClick={() => setSelectedType(type.id)}
                 >
                   <Text className={`at-icon at-icon-${type.icon}`} />
-                  <Text className="type-name">{type.name}</Text>
+                  <Text className='type-name'>{type.name}</Text>
                 </View>
               ))}
             </View>
           </View>
 
-          <View className="input-group">
-            <Text className="label">选择设备</Text>
+          <View className='input-group'>
+            <Text className='label'>选择设备</Text>
             {loading ? (
-              <View className="loading">加载设备列表中...</View>
+              <View className='loading'>加载设备列表中...</View>
             ) : devices.length > 0 ? (
-              <View className="device-list">
+              <View className='device-list'>
                 {devices.map((device) => (
                   <View
                     key={device.deviceId || device.id}
@@ -178,7 +179,7 @@ export default function AddScene() {
                       setSelectedDevices(newSelected);
                     }}
                   >
-                    <Text className="device-name">{device.name}</Text>
+                    <Text className='device-name'>{device.name}</Text>
                     <Text
                       className={`status ${device.status === 1 ? "online" : "offline"}`}
                     >
@@ -188,25 +189,25 @@ export default function AddScene() {
                 ))}
               </View>
             ) : (
-              <View className="empty-devices">暂无可用设备</View>
+              <View className='empty-devices'>暂无可用设备</View>
             )}
           </View>
 
-          <View className="input-group">
-            <Text className="label">场景描述</Text>
+          <View className='input-group'>
+            <Text className='label'>场景描述</Text>
             <AtTextarea
-              className="textarea"
+              className='textarea'
               value={sceneDesc}
               onChange={(value) => setSceneDesc(value)}
               maxLength={200}
-              placeholder="描述一下这个场景的用途"
+              placeholder='描述一下这个场景的用途'
             />
           </View>
         </View>
 
-        <View className="button-group">
+        <View className='button-group'>
           <AtButton
-            type="primary"
+            type='primary'
             onClick={handleSubmit}
             loading={submitting}
             disabled={submitting}
