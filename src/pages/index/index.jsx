@@ -41,9 +41,21 @@ export default function Index() {
     fetchDeviceList();
   });
 
-  // 每次页面显示时都重新获取设备列表
+  // 每次页面显示时都重新获取设备列表和轮播图列表
   useDidShow(() => {
+    // 重新获取设备列表
     fetchDeviceList();
+
+    // 重新获取新闻列表数据
+    getNewsList()
+      .then((res) => {
+        if (res) {
+          setSwiperData(res);
+        }
+      })
+      .catch((error) => {
+        console.error("获取新闻列表失败:", error);
+      });
   });
 
   const handleDeviceClick = (device) => {
