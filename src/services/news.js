@@ -1,9 +1,10 @@
 import { http } from "../utils/http";
 
-// 获取新闻列表
-export const getNewsList = () => {
+// ... existing code ...
+export const getNewsList = (params) => {
   return http({
     url: "/content/api/news/list",
     method: "GET",
+    data: params,
   });
 };

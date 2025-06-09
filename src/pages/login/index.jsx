@@ -1,22 +1,22 @@
 import { View, Text, Input, Form, Button, Image } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { useState } from 'react';
-import { accountLogin } from '@/service/user';
-import { useAppDispatch } from '@/store';
-import { setUserInfo } from '@/store/user';
+import { useState } from "react";
+import { accountLogin } from "@/service/user";
+import { useAppDispatch } from "@/store";
+import { setUserInfo } from "@/store/user";
 import "./index.scss";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
 
   const handleInput = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -25,18 +25,18 @@ const LoginPage = () => {
       const res = await accountLogin(formData);
       if (res?.accessToken) {
         // 存储token
-        Taro.setStorageSync('token', res.accessToken);
+        Taro.setStorageSync("token", res.accessToken);
         // 更新用户信息
         dispatch(setUserInfo(res));
         // 跳转到首页
         Taro.switchTab({
-          url: '/pages/index/index'
+          url: "/pages/index/index",
         });
       }
     } catch (error) {
       Taro.showToast({
-        title: error.message || '登录失败',
-        icon: 'none'
+        title: error.message || "登录失败",
+        icon: "none",
       });
     }
   };
@@ -74,7 +74,7 @@ const LoginPage = () => {
             placeholder="用户名"
             className="input-field"
             value={formData.username}
-            onInput={e => handleInput('username', e.detail.value)}
+            onInput={(e) => handleInput("username", e.detail.value)}
           />
         </View>
         <View className="input-container">
@@ -83,8 +83,7 @@ const LoginPage = () => {
             placeholder="密码"
             className="input-field"
             value={formData.password}
-            onInput={e => handleInput('password', e.detail.value)}
-           
+            onInput={(e) => handleInput("password", e.detail.value)}
           />
         </View>
 
@@ -92,7 +91,11 @@ const LoginPage = () => {
           <Text className="link-text">忘记密码?</Text>
         </View>
 
-        <Button formType="submit" className="login-button" onClick={handleLogin}>
+        <Button
+          formType="submit"
+          className="login-button"
+          onClick={handleLogin}
+        >
           登录
         </Button>
       </Form>
