@@ -1,40 +1,32 @@
-import {
-  View,
-  Text,
-  Input,
-  Button,
-  Form,
-  Image,
-} from "@tarojs/components";
+import { View, Text, Input, Button, Form, Image } from "@tarojs/components";
 import { navigateTo } from "@tarojs/taro";
-import { useState } from 'react';
-import Taro from '@tarojs/taro';
-import { register } from '@/service/user';
+import { useState } from "react";
+import Taro from "@tarojs/taro";
+import { register } from "@/service/user";
 import "./index.scss";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    mobile: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    mobile: "",
+    password: "",
+    confirmPassword: "",
   });
   // 已移除服务条款同意状态
 
   const handleInput = (field, value) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleRegister = async () => {
-
     if (formData.password !== formData.confirmPassword) {
       Taro.showToast({
-        title: '两次输入的密码不一致',
-        icon: 'none'
+        title: "两次输入的密码不一致",
+        icon: "none",
       });
       return;
     }
@@ -44,21 +36,21 @@ const RegisterPage = () => {
         username: formData.username,
         password: formData.password,
         email: formData.email,
-        mobile: formData.mobile
+        mobile: formData.mobile,
       };
-      
+
       await register(registerData);
       Taro.showToast({
-        title: '注册成功',
-        icon: 'success'
+        title: "注册成功",
+        icon: "success",
       });
       setTimeout(() => {
         goToLogin();
       }, 1500);
     } catch (error) {
       Taro.showToast({
-        title: error.message || '注册失败',
-        icon: 'none'
+        title: error.message || "注册失败",
+        icon: "none",
       });
     }
   };
@@ -84,39 +76,39 @@ const RegisterPage = () => {
       </View>
       <Form className="form">
         <View className="input-group">
-          <Input 
-            type="text" 
-            placeholder="用户名" 
-            className="input-field" 
+          <Input
+            type="text"
+            placeholder="用户名"
+            className="input-field"
             value={formData.username}
-            onInput={e => handleInput('username', e.detail.value)}
+            onInput={(e) => handleInput("username", e.detail.value)}
           />
         </View>
         <View className="input-group">
-          <Input 
-            type="email" 
-            placeholder="邮箱" 
-            className="input-field" 
+          <Input
+            type="email"
+            placeholder="邮箱"
+            className="input-field"
             value={formData.email}
-            onInput={e => handleInput('email', e.detail.value)}
+            onInput={(e) => handleInput("email", e.detail.value)}
           />
         </View>
         <View className="input-group">
-          <Input 
-            type="text" 
-            placeholder="手机号" 
-            className="input-field" 
+          <Input
+            type="text"
+            placeholder="手机号"
+            className="input-field"
             value={formData.mobile}
-            onInput={e => handleInput('mobile', e.detail.value)}
+            onInput={(e) => handleInput("mobile", e.detail.value)}
           />
         </View>
         <View className="input-group">
-          <Input 
-            type="password" 
-            placeholder="密码" 
-            className="input-field" 
+          <Input
+            type="password"
+            placeholder="密码"
+            className="input-field"
             value={formData.password}
-            onInput={e => handleInput('password', e.detail.value)}
+            onInput={(e) => handleInput("password", e.detail.value)}
           />
         </View>
         <View className="input-group">
@@ -125,13 +117,13 @@ const RegisterPage = () => {
             placeholder="确认密码"
             className="input-field"
             value={formData.confirmPassword}
-            onInput={e => handleInput('confirmPassword', e.detail.value)}
+            onInput={(e) => handleInput("confirmPassword", e.detail.value)}
           />
         </View>
         {/* <View className="agreement">
           <Label>
-            <Checkbox 
-              className="checkbox" 
+            <Checkbox
+              className="checkbox"
               checked={agreed}
               onClick={handleAgreeChange} // 改为 onClick
             />

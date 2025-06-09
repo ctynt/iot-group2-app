@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智能家居 App - 个人中心</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        background-image: linear-gradient(
+          to right top,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc,
+          #cfdef3,
+          #e0eafc
+        );
+        padding: 40px;
+        display: flex;
+        gap: 40px; /* Space between mockups */
+        overflow-x: auto; /* Allow horizontal scrolling for the body */
+        min-height: 100vh;
+      }
+      .mockup {
+        width: 375px; /* iPhone X width */
+        height: 812px; /* iPhone X height */
+        border: 8px solid #f8f9fa;
+        border-radius: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden; /* Clip content to mockup */
+        position: relative;
+        background-color: #ffffff; /* Light background */
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0; /* Prevent mockups from shrinking */
+      }
+      .mockup-content {
+        flex-grow: 1;
+        overflow-y: hidden; /* Strictly no scrollbars */
+        display: flex;
+        flex-direction: column;
+        color: #333333; /* Dark text for light background */
+      }
+      .glassmorphic-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1);
+      }
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+      .icon-button {
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      .icon-button img {
+        width: 24px;
+        height: 24px;
+      }
+      .nav-bar {
+        display: flex;
+        justify-content: space-around;
+        padding: 12px 0;
+        background: rgba(255, 255, 255, 0.9);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.8rem;
+        color: #666;
+      }
+      .nav-item img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 4px;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .menu-item {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .menu-item:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Mockup: Personal Center -->
+    <div class="mockup">
+      <div class="mockup-content">
+        <div class="header">
+          <h1>个人中心</h1>
+          <button class="icon-button">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/bell.svg"
+              alt="Notifications"
+            />
+          </button>
+        </div>
+        <div
+          class="p-6 flex flex-col flex-grow bg-cover bg-center no-scrollbar"
+          style="
+            background-image: url('https://source.unsplash.com/random/375x812?gradient,blue');
+            overflow-y: auto;
+          "
+        >
+          <!-- User Profile Card -->
+          <div class="glassmorphic-card p-6 mb-6">
+            <div class="flex items-center">
+              <img
+                src="https://source.unsplash.com/random/200x200?portrait"
+                alt="User Avatar"
+                class="avatar mr-4"
+              />
+              <div>
+                <h2 class="text-xl font-semibold text-gray-800">张小明</h2>
+                <p class="text-gray-600 text-sm">智能家居爱好者</p>
+                <button class="mt-2 text-sm text-blue-600 flex items-center">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/edit.svg"
+                    alt="Edit"
+                    class="w-4 h-4 mr-1"
+                  />
+                  编辑资料
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account & Security -->
+          <div class="glassmorphic-card p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">账号与安全</h3>
+            <div class="space-y-1">
+              <div class="menu-item">
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/shield.svg"
+                  alt="Security"
+                  class="w-6 h-6 mr-3 text-blue-500"
+                />
+                <span class="text-gray-700 flex-grow">账号安全</span>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Arrow"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </div>
+              <div class="menu-item">
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/fingerprint.svg"
+                  alt="Privacy"
+                  class="w-6 h-6 mr-3 text-blue-500"
+                />
+                <span class="text-gray-700 flex-grow">隐私设置</span>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Arrow"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- My Services -->
+          <div class="glassmorphic-card p-6 mb-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">我的服务</h3>
+            <div class="grid grid-cols-4 gap-4 text-center">
+              <div class="flex flex-col items-center">
+                <div class="p-2 bg-blue-100 rounded-full mb-2">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/heart.svg"
+                    alt="Favorites"
+                    class="w-6 h-6 text-blue-600"
+                  />
+                </div>
+                <span class="text-xs text-gray-700">收藏</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="p-2 bg-green-100 rounded-full mb-2">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/history.svg"
+                    alt="History"
+                    class="w-6 h-6 text-green-600"
+                  />
+                </div>
+                <span class="text-xs text-gray-700">历史</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="p-2 bg-purple-100 rounded-full mb-2">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/message-circle.svg"
+                    alt="Feedback"
+                    class="w-6 h-6 text-purple-600"
+                  />
+                </div>
+                <span class="text-xs text-gray-700">反馈</span>
+              </div>
+              <div class="flex flex-col items-center">
+                <div class="p-2 bg-orange-100 rounded-full mb-2">
+                  <img
+                    src="https://unpkg.com/lucide-static@latest/icons/help-circle.svg"
+                    alt="Help"
+                    class="w-6 h-6 text-orange-600"
+                  />
+                </div>
+                <span class="text-xs text-gray-700">帮助</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Settings -->
+          <div class="glassmorphic-card p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">设置</h3>
+            <div class="space-y-1">
+              <div class="menu-item">
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/globe.svg"
+                  alt="Language"
+                  class="w-6 h-6 mr-3 text-blue-500"
+                />
+                <span class="text-gray-700 flex-grow">语言</span>
+                <span class="text-gray-500 text-sm mr-2">简体中文</span>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Arrow"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </div>
+              <div class="menu-item">
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/bell.svg"
+                  alt="Notifications"
+                  class="w-6 h-6 mr-3 text-blue-500"
+                />
+                <span class="text-gray-700 flex-grow">通知设置</span>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Arrow"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </div>
+              <div class="menu-item">
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/info.svg"
+                  alt="About"
+                  class="w-6 h-6 mr-3 text-blue-500"
+                />
+                <span class="text-gray-700 flex-grow">关于</span>
+                <span class="text-gray-500 text-sm mr-2">v2.1.0</span>
+                <img
+                  src="https://unpkg.com/lucide-static@latest/icons/chevron-right.svg"
+                  alt="Arrow"
+                  class="w-5 h-5 text-gray-400"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-bar">
+          <div class="nav-item">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/home.svg"
+              alt="Home"
+            />
+            <span>首页</span>
+          </div>
+          <div class="nav-item">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/grid.svg"
+              alt="Devices"
+            />
+            <span>设备</span>
+          </div>
+          <div class="nav-item text-blue-600">
+            <img
+              src="https://unpkg.com/lucide-static@latest/icons/user.svg"
+              alt="Profile"
+            />
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
