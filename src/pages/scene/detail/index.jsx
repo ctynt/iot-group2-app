@@ -10,6 +10,7 @@ import {
 import { getDeviceList } from "../../../services/device";
 import { useAppSelector } from "@/store";
 import SmartLighting from "../../../components/SmartLighting";
+import SmartSecurity from "../../../components/SmartSecurity";
 import "./index.scss";
 
 export default function SceneDetail() {
@@ -264,23 +265,54 @@ export default function SceneDetail() {
     );
   }
 
+  // 获取场景关联的设备ID列表
+  const deviceIds =
+    scene.devices && Array.isArray(scene.devices)
+      ? scene.devices.map((device) => device.deviceId || device.id)
+      : [];
+
+  // 传递第一个设备ID（如果存在）给组件
+  const primaryDeviceId = deviceIds.length > 0 ? deviceIds[0] : "";
+
   // 如果是智能照明场景，显示SmartLighting组件
   if (scene.type === "3" && !isEditing) {
-    // 获取场景关联的设备ID列表
-    const deviceIds =
-      scene.devices && Array.isArray(scene.devices)
-        ? scene.devices.map((device) => device.deviceId || device.id)
-        : [];
-
-    // 传递第一个设备ID（如果存在）给SmartLighting组件
-    const primaryDeviceId = deviceIds.length > 0 ? deviceIds[0] : "";
-
     return (
-      <SmartLighting
-        sceneId={sceneId}
-        sceneName={scene.name}
-        deviceId={primaryDeviceId}
-      />
+      <View className="scene-detail">
+        <SmartLighting
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={primaryDeviceId}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
+
+  // 如果是智能安防场景，显示SmartSecurity组件
+  if (scene.type === "2" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartSecurity
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={primaryDeviceId}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
     );
   }
 
