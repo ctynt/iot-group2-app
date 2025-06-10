@@ -119,7 +119,7 @@ const ForgotPasswordPage = () => {
   const resetPassword = async () => {
     if (!form.password || !isValidPassword(form.password)) {
       Taro.showToast({
-        title: '密码必须包含数字和字母，长度8-20位',
+        title: '密码必须为数字或字母,长度不少于6位',
         icon: 'none',
       });
       return;
