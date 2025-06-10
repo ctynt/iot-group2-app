@@ -11,6 +11,7 @@ import { getDeviceList } from "../../../services/device";
 import { useAppSelector } from "@/store";
 import SmartLighting from "../../../components/SmartLighting";
 import SmartSecurity from "../../../components/SmartSecurity";
+import SmartFan from "../../../components/SmartFan";
 import "./index.scss";
 
 export default function SceneDetail() {
@@ -300,6 +301,27 @@ export default function SceneDetail() {
     return (
       <View className="scene-detail">
         <SmartSecurity
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={primaryDeviceId}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
+
+  // 如果是智能风扇场景，显示SmartFan组件
+  if (scene.type === "4" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartFan
           sceneId={sceneId}
           sceneName={scene.name}
           deviceId={primaryDeviceId}
