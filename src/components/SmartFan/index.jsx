@@ -20,7 +20,7 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
         command = "off";
         break;
       case "low":
-        command = "speed:low";
+        command = "on";
         break;
       case "medium":
         command = "speed:medium";
@@ -45,7 +45,7 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
     setFanSpeed(newSpeed);
 
     // 发送控制命令
-    const command = newSpeed === "off" ? "off" : "speed:low";
+    const command = newSpeed === "off" ? "off" : "on";
 
     if (deviceId) {
       controlDevice(deviceId, command);
@@ -144,11 +144,7 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
           <View
             className="auto-button"
             onClick={() => {
-              if (deviceId) {
-                controlDevice(deviceId, "autofan_on");
-              } else {
-                controlScene(sceneId, "autofan_on");
-              }
+              controlScene(sceneId, "autofan_on");
             }}
           >
             <Text>启用自动控制</Text>
@@ -156,11 +152,7 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
           <View
             className="manual-button"
             onClick={() => {
-              if (deviceId) {
-                controlDevice(deviceId, "autofan_off");
-              } else {
-                controlScene(sceneId, "autofan_off");
-              }
+              controlScene(sceneId, "autofan_off");
             }}
           >
             <Text>切换到手动控制</Text>
