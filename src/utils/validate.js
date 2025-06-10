@@ -3,7 +3,7 @@
  * @param {string} mobile - 手机号
  * @returns {boolean} 是否是有效的手机号
  */
-export const isMobile = (mobile) => {
+export const isPhoneAvailable= (mobile) => {
   return /^1[3-9]\d{9}$/.test(mobile)
 }
 
@@ -23,4 +23,13 @@ export const isValidPassword = (password) => {
  */
 export const isEmail = (email) => {
   return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+}
+
+/**
+ * 验证短信验证码格式（4位数字）
+ * @param {string} code - 验证码
+ * @returns {boolean} 是否是有效的验证码
+ */
+export const isCodeAvailable = (code) => {
+  return /^\d{4}$/.test(code)
 }

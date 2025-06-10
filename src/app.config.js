@@ -4,6 +4,7 @@ export default defineAppConfig({
     "pages/login/index",
     "pages/register/index",
     "pages/forgot-password/index",
+    "pages/phone-login/index",
     "pages/my/index",
     "pages/editUser/index",
     "pages/scene/index",
