@@ -129,7 +129,7 @@ export default function Index() {
           <View>
             <Text className="section-title">我的设备</Text>
           </View>
-          <View>
+          {/* <View>
             <AtButton
               type="primary"
               size="small"
@@ -139,7 +139,7 @@ export default function Index() {
             >
               添加设备
             </AtButton>
-          </View>
+          </View> */}
         </View>
         <View className="devices-grid">
           {devices.map((device) => (
@@ -153,14 +153,14 @@ export default function Index() {
                   <Text className="device-status">
                     {device.status === 1 ? "在线" : "离线"}
                   </Text>
-                  <AtButton
+                  {/* <AtButton
                     type="secondary"
                     size="small"
                     className="delete-btn"
                     onClick={(e) => handleDeleteDevice(e, device)}
                   >
                     删除
-                  </AtButton>
+                  </AtButton> */}
                 </View>
               </AtCard>
             </View>
