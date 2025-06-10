@@ -12,6 +12,7 @@ import { useAppSelector } from "@/store";
 import SmartLighting from "../../../components/SmartLighting";
 import SmartSecurity from "../../../components/SmartSecurity";
 import SmartFan from "../../../components/SmartFan";
+import SmartEnvironment from "../../../components/SmartEnvironment";
 import "./index.scss";
 
 export default function SceneDetail() {
@@ -274,6 +275,23 @@ export default function SceneDetail() {
 
   // 传递第一个设备ID（如果存在）给组件
   const primaryDeviceId = deviceIds.length > 0 ? deviceIds[0] : "";
+
+  // 如果是环境监测场景，显示SmartEnvironment组件
+  if (scene.type === "1" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartEnvironment sceneName={scene.name} deviceId={primaryDeviceId} />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
 
   // 如果是智能照明场景，显示SmartLighting组件
   if (scene.type === "3" && !isEditing) {
