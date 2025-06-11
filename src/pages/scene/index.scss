@@ -10,7 +10,7 @@
     color: #333;
     position: relative;
     padding-left: 24px;
-    
+
     &::before {
       content: "";
       position: absolute;
@@ -34,14 +34,14 @@
     justify-content: center;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     margin: 40px 0;
-    
+
     .login-message {
       font-size: 32px;
       color: #666;
       margin-bottom: 32px;
       text-align: center;
     }
-    
+
     .at-button {
       width: 80%;
       margin-top: 16px;
@@ -50,13 +50,13 @@
 
   .add-scene-button-container {
     margin-bottom: 32px;
-    
+
     .at-button {
       background: linear-gradient(to right, #1890ff, #36cfc9);
       border: none;
       box-shadow: 0 4px 16px rgba(24, 144, 255, 0.2);
       border-radius: 12px;
-      
+
       &::after {
         border: none;
       }
@@ -87,7 +87,7 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    
+
     &::after {
       content: "";
       position: absolute;
@@ -98,10 +98,18 @@
       background: linear-gradient(to bottom, #1890ff, #36cfc9);
       border-radius: 3px;
     }
-    
+
     &:active {
       transform: scale(0.98);
       box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .switch-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 10px;
+      z-index: 10;
     }
   }
 
@@ -116,7 +124,7 @@
     margin-bottom: 12px;
     color: #333;
   }
-  
+
   .scene-desc {
     font-size: 26px;
     color: #999;
@@ -141,7 +149,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-    
+
     &::before {
       content: "\e6a6";
       font-family: "at-icon";
@@ -149,7 +157,7 @@
       color: #d9d9d9;
       margin-bottom: 24px;
     }
-    
+
     .empty-text {
       font-size: 32px;
       color: #999;

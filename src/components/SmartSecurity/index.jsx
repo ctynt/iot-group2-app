@@ -124,7 +124,6 @@ const SmartSecurity = ({
                   Taro.showToast({
                     title: "蜂鸣器已开启",
                     icon: "success",
-                    duration: 1500,
                   });
                 }}
               >
@@ -137,7 +136,6 @@ const SmartSecurity = ({
                   Taro.showToast({
                     title: "蜂鸣器已关闭",
                     icon: "success",
-                    duration: 1500,
                   });
                 }}
               >

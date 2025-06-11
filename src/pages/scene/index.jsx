@@ -2,10 +2,11 @@ import { View, Text, Switch } from "@tarojs/components";
 import { AtButton } from "taro-ui";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { useState, useEffect } from "react";
-import { getSceneList } from "../../services/scene";
 import { getUserInfo } from "@/service/user";
+import { controlScene } from "@/service/command";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { setUserInfo } from "@/store/user";
+import { getSceneList } from "../../services/scene";
 import "./index.scss";
 
 export default function Scene() {
@@ -147,10 +148,67 @@ export default function Scene() {
     });
   };
 
-  const handleSwitchChange = (e, sceneId) => {
+  const handleSwitchChange = async (e, scene) => {
     e.stopPropagation();
-    // 这里添加启用/禁用场景的逻辑
-    console.log(`Scene ${sceneId} switch changed`);
+
+    const { id: sceneId, enabled: currentStatus, type: sceneType } = scene;
+
+    try {
+      // 根据场景类型和当前状态决定要发送的命令
+      let command = "";
+
+      // 根据场景类型选择合适的命令
+      switch (sceneType) {
+        case "1": // 环境检测场景
+          command = currentStatus ? "autolight_off" : "autolight_on";
+          break;
+        case "2": // 智能安防场景
+          command = currentStatus ? "autoalarm_off" : "autoalarm_on";
+          break;
+        case "3": // 智能照明场景
+          command = currentStatus ? "nightlight_off" : "nightlight_on";
+          break;
+        case "4": // 智能节能风扇场景
+          command = currentStatus ? "autofan_off" : "autofan_on";
+          break;
+        default:
+          // 默认命令
+          command = currentStatus ? "off" : "on";
+      }
+
+      // 显示加载状态
+      Taro.showLoading({
+        title: currentStatus ? "正在关闭场景..." : "正在开启场景...",
+      });
+
+      // 调用控制场景的API
+      const res = await controlScene(sceneId, command);
+
+      // 操作成功后直接更新本地状态，不刷新列表
+      if (res) {
+        Taro.showToast({
+          title: currentStatus ? "场景已关闭" : "场景已开启",
+          icon: "success",
+          duration: 2000,
+        });
+
+        // 直接更新本地状态而不是刷新列表
+        setScenes((prevScenes) =>
+          prevScenes.map((item) =>
+            item.id === sceneId ? { ...item, enabled: !currentStatus } : item,
+          ),
+        );
+      }
+    } catch (error) {
+      console.error(`控制场景失败:`, error);
+      Taro.showToast({
+        title: "操作失败，请重试",
+        icon: "none",
+        duration: 2000,
+      });
+    } finally {
+      Taro.hideLoading();
+    }
   };
 
   return (
@@ -189,11 +247,16 @@ export default function Scene() {
                         {scene.description || "无描述"}
                       </Text>
                     </View>
-                    <Switch
-                      checked={scene.enabled}
-                      onChange={(e) => handleSwitchChange(e, scene.id)}
-                      className="scene-switch"
-                    />
+                    <View
+                      className="switch-container"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Switch
+                        checked={scene.enabled}
+                        onChange={(e) => handleSwitchChange(e, scene)}
+                        className="scene-switch"
+                      />
+                    </View>
                   </View>
                 ))
               ) : (
