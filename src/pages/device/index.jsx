@@ -89,8 +89,7 @@ export default function Index() {
 
   const handleSave = async () => {
     try {
-      const res = await editDevice(editForm);
-      // 如果代码执行到这里，说明请求成功
+      await editDevice(editForm);
       Taro.showToast({
         title: "修改成功",
         icon: "success",
@@ -129,56 +128,67 @@ export default function Index() {
   ];
 
   return (
-    <View className="device-detail">
+    <View className='device-detail'>
       {isEditing ? (
         <AtForm>
           <AtInput
-            name="deviceId"
-            title="设备ID"
-            type="text"
+            name='deviceId'
+            title='设备ID'
+            type='text'
             value={editForm.deviceId}
             onChange={(value) => setEditForm({ ...editForm, deviceId: value })}
           />
           <AtInput
-            name="name"
-            title="设备名称"
-            type="text"
+            name='name'
+            title='设备名称'
+            type='text'
             value={editForm.name}
             onChange={(value) => setEditForm({ ...editForm, name: value })}
           />
-          <View className="device-type-picker picker">
+          <View className='device-type-picker picker'>
             <Picker
-              mode="selector"
+              mode='selector'
               range={deviceTypes}
-              rangeKey="label"
+              rangeKey='label'
               onChange={(e) => {
                 const selectedType = deviceTypes[e.detail.value].value;
                 setEditForm({ ...editForm, type: selectedType });
               }}
             >
-              <View className="picker-view">
-                <View className="picker-label">设备类型</View>
-                <View className="picker-value">
+              <View className='picker-view'>
+                <View className='picker-label'>设备类型</View>
+                <View className='picker-value'>
                   {deviceTypes.find((t) => t.value === editForm.type)?.label ||
                     "请选择设备类型"}
                 </View>
               </View>
             </Picker>
           </View>
-          <View className="button-group">
+          <View className='button-group'>
             <AtButton onClick={handleCancel}>取消</AtButton>
-            <AtButton type="primary" onClick={handleSave}>
+            <AtButton type='primary' onClick={handleSave}>
               保存
             </AtButton>
           </View>
         </AtForm>
       ) : (
-        <View className="device-card">
+        <View>
           {!isEditing ? (
             // 查看模式
             <>
-              <View className="card-header">
-                <Text className="device-name">{device.name}</Text>
+              {device.type === 1 && (
+               <View className='show-card'>
+                <image
+                  src='https://unpkg.com/lucide-static@latest/icons/lightbulb.svg'
+                />
+               <h2>已开启</h2>
+                </View>
+              )}
+
+            <View className='device-card'>
+              <View className='card-header'>
+
+                <Text className='device-name'>{device.name}</Text>
                 <Text
                   className={`device-status ${
                     device.status === 1 ? "online" : "offline"
@@ -188,34 +198,35 @@ export default function Index() {
                 </Text>
               </View>
 
-              <View className="card-content">
-                <View className="info-item">
-                  <Text className="label">设备ID</Text>
-                  <Text className="value">{device.deviceId}</Text>
+              <View className='card-content'>
+                 <h2>设备信息</h2>
+                <View className='info-item'>
+                  <Text className='label'>设备ID</Text>
+                  <Text className='value'>{device.deviceId}</Text>
                 </View>
 
-                <View className="info-item">
-                  <Text className="label">设备类型</Text>
-                  <Text className="value">{getDeviceType(device.type)}</Text>
+                <View className='info-item'>
+                  <Text className='label'>设备类型</Text>
+                  <Text className='value'>{getDeviceType(device.type)}</Text>
                 </View>
 
-                <View className="info-item">
-                  <Text className="label">开关状态</Text>
-                  <Text className="value">
-                    {device.isSwitched === 1 ? "开" : "关"}
+                <View className='info-item'>
+                  <Text className='label'>开关状态</Text>
+                  <Text className='value'>
+                    {device.isSwitched === 0 ? "开" : "关"}
                   </Text>
                 </View>
 
                 {device.type === 2 && (
                   <>
-                    <View className="info-item">
-                      <Text className="label">温度</Text>
-                      <Text className="value">{device.temperature}°C</Text>
+                    <View className='info-item'>
+                      <Text className='label'>温度</Text>
+                      <Text className='value'>{device.temperature}°C</Text>
                     </View>
 
-                    <View className="info-item">
-                      <Text className="label">湿度</Text>
-                      <Text className="value">{device.humidity}%</Text>
+                    <View className='info-item'>
+                      <Text className='label'>湿度</Text>
+                      <Text className='value'>{device.humidity}%</Text>
                     </View>
                   </>
                 )}
@@ -231,26 +242,26 @@ export default function Index() {
             // 编辑模式
             <AtForm>
               <AtInput
-                name="deviceId"
-                title="设备ID"
-                type="text"
-                placeholder="请输入设备ID"
+                name='deviceId'
+                title='设备ID'
+                type='text'
+                placeholder='请输入设备ID'
                 value={editForm.deviceId}
                 onChange={(value) => handleChange(value, "deviceId")}
               />
               <AtInput
-                name="name"
-                title="设备名称"
-                type="text"
-                placeholder="请输入设备名称"
+                name='name'
+                title='设备名称'
+                type='text'
+                placeholder='请输入设备名称'
                 value={editForm.name}
                 onChange={(value) => handleChange(value, "name")}
               />
-              <View className="form-buttons">
-                <AtButton type="secondary" onClick={handleCancel}>
+              <View className='form-buttons'>
+                <AtButton type='secondary' onClick={handleCancel}>
                   取消
                 </AtButton>
-                <AtButton type="primary" onClick={handleSave}>
+                <AtButton type='primary' onClick={handleSave}>
                   保存
                 </AtButton>
               </View>
