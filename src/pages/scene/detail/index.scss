@@ -95,9 +95,12 @@
   }
 
   .actions {
+    padding: 20rpx 30rpx;
     display: flex;
-    gap: 16px;
-    margin-top: 32px;
+    justify-content: space-between;
+    gap: 20rpx;
+
+    margin-top: 20rpx;
 
     .at-button {
       flex: 1;

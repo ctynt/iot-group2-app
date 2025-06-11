@@ -9,6 +9,10 @@ import {
 } from "../../../services/scene";
 import { getDeviceList } from "../../../services/device";
 import { useAppSelector } from "@/store";
+import SmartLighting from "../../../components/SmartLighting";
+import SmartSecurity from "../../../components/SmartSecurity";
+import SmartFan from "../../../components/SmartFan";
+import SmartEnvironment from "../../../components/SmartEnvironment";
 import "./index.scss";
 
 export default function SceneDetail() {
@@ -259,6 +263,109 @@ export default function SceneDetail() {
       <View className="scene-detail error-container">
         <Text>{error || "未找到场景信息"}</Text>
         <AtButton onClick={() => Taro.navigateBack()}>返回</AtButton>
+      </View>
+    );
+  }
+
+  // 获取场景关联的设备ID列表
+  const deviceIds =
+    scene.devices && Array.isArray(scene.devices)
+      ? scene.devices.map((device) => device.deviceId || device.id)
+      : [];
+
+  // 根据设备类型自动分配ID
+  let devicesByType = { led: "", sensor: "", fan: "", buzzer: "" };
+  if (scene.devices && Array.isArray(scene.devices)) {
+    scene.devices.forEach((device) => {
+      const type = device.deviceType || device.type;
+      if (type === 1) devicesByType.led = device.deviceId || device.id;
+      if (type === 2) devicesByType.sensor = device.deviceId || device.id;
+      if (type === 3) devicesByType.buzzer = device.deviceId || device.id;
+      if (type === 5) devicesByType.fan = device.deviceId || device.id;
+    });
+  }
+
+  // 如果是环境监测场景，显示SmartEnvironment组件
+  if (scene.type === "1" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartEnvironment
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceIds={devicesByType}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
+
+  // 如果是智能照明场景，显示SmartLighting组件
+  if (scene.type === "3" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartLighting
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={devicesByType.led}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
+
+  // 如果是智能安防场景，显示SmartSecurity组件
+  if (scene.type === "2" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartSecurity
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={devicesByType.sensor}
+          buzzerId={devicesByType.buzzer}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
+      </View>
+    );
+  }
+
+  // 如果是智能风扇场景，显示SmartFan组件
+  if (scene.type === "4" && !isEditing) {
+    return (
+      <View className="scene-detail">
+        <SmartFan
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceId={devicesByType.fan}
+        />
+        <View className="actions">
+          <AtButton type="primary" onClick={handleEdit}>
+            编辑场景
+          </AtButton>
+          <AtButton type="secondary" onClick={handleDelete}>
+            删除场景
+          </AtButton>
+        </View>
       </View>
     );
   }
