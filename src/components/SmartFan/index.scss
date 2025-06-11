@@ -1,0 +1,177 @@
+.smart-fan {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 240rpx);
+  padding: 30rpx;
+  background-color: #f5f7fa;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30rpx;
+
+    .title {
+      font-size: 40rpx;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10rpx;
+    }
+
+    .device-id {
+      font-size: 24rpx;
+      color: #999;
+    }
+  }
+
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30rpx;
+    overflow-y: auto;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  }
+
+  .status-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .fan-icon {
+      width: 120rpx;
+      height: 120rpx;
+      padding: 20rpx;
+      background-color: rgba(144, 202, 249, 0.2);
+      border-radius: 50%;
+      margin-bottom: 20rpx;
+    }
+
+    .status-title {
+      font-size: 36rpx;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10rpx;
+    }
+
+    .status-text {
+      font-size: 28rpx;
+      color: #666;
+    }
+  }
+
+  .control-card {
+    .card-title {
+      font-size: 32rpx;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20rpx;
+    }
+
+    .power-button-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30rpx;
+    }
+
+    .power-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20rpx 40rpx;
+      border-radius: 10rpx;
+      background-color: #f5f7fa;
+      transition: all 0.3s ease;
+
+      &.active {
+        background-color: rgba(76, 175, 80, 0.2);
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+      }
+
+      .power-icon {
+        width: 48rpx;
+        height: 48rpx;
+        margin-bottom: 10rpx;
+      }
+
+      .power-text {
+        font-size: 26rpx;
+        color: #333;
+      }
+    }
+
+    .speed-controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20rpx;
+    }
+
+    .speed-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20rpx;
+      border-radius: 10rpx;
+      background-color: #f5f7fa;
+      transition: all 0.3s ease;
+
+      &.active {
+        background-color: rgba(144, 202, 249, 0.2);
+        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+      }
+
+      .speed-icon {
+        width: 48rpx;
+        height: 48rpx;
+        margin-bottom: 10rpx;
+      }
+
+      .speed-text {
+        font-size: 26rpx;
+        color: #333;
+      }
+    }
+  }
+
+  .auto-control-card {
+    .card-title {
+      font-size: 32rpx;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20rpx;
+    }
+
+    .auto-button,
+    .manual-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80rpx;
+      border-radius: 10rpx;
+      font-size: 28rpx;
+      margin-bottom: 20rpx;
+      transition: all 0.3s ease;
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+
+    .auto-button {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .manual-button {
+      background-color: #ff9800;
+      color: white;
+    }
+  }
+}

@@ -232,13 +232,11 @@ export default function Index() {
                 )}
               </View>
 
-
-              <View className='card-footer'>
-                <AtButton type='primary' onClick={handleEdit}>
+              {/* <View className="card-footer">
+                <AtButton type="primary" onClick={handleEdit}>
                   修改设备
                 </AtButton>
-              </View>
-            </View>
+              </View> */}
             </>
           ) : (
             // 编辑模式
