@@ -157,6 +157,14 @@
     &.alarm-off {
       background-color: #4ade80;
     }
+
+    &.buzzer-on {
+      background-color: #f59e42;
+    }
+
+    &.buzzer-off {
+      background-color: #60a5fa;
+    }
   }
 
   .log-card {

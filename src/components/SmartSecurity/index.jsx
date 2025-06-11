@@ -1,36 +1,17 @@
 import { View, Text, Image } from "@tarojs/components";
 import { useState } from "react";
 import { controlScene, controlDevice } from "@/service/command";
+import Taro from "@tarojs/taro";
 import "./index.scss";
 
-const SmartSecurity = ({ sceneId, sceneName = "智能安防", deviceId }) => {
+const SmartSecurity = ({
+  sceneId,
+  sceneName = "智能安防",
+  deviceId,
+  buzzerId,
+}) => {
   // 安防状态: 'armed'(已布防), 'disarmed'(未布防), 'alert'(警报中)
   const [securityStatus, setSecurityStatus] = useState("disarmed");
-
-  // 活动日志
-  const [logs] = useState([
-    {
-      content: "系统已布防",
-      time: "2023-11-15 10:30",
-      status: "normal",
-    },
-    {
-      content: "前门传感器触发",
-      time: "2023-11-15 09:15",
-      status: "alert",
-      extraInfo: "警报已解除",
-    },
-    {
-      content: "系统已撤防",
-      time: "2023-11-15 08:00",
-      status: "normal",
-    },
-    {
-      content: "后窗传感器正常",
-      time: "2023-11-14 22:00",
-      status: "normal",
-    },
-  ]);
 
   // 处理布防/撤防
   const toggleSecurityStatus = () => {
@@ -64,13 +45,6 @@ const SmartSecurity = ({ sceneId, sceneName = "智能安防", deviceId }) => {
     } else {
       // 布防/撤防使用场景ID
       controlScene(sceneId, command);
-    }
-  };
-
-  // 手动控制蜂鸣器
-  const toggleBuzzer = (turnOn) => {
-    if (deviceId) {
-      controlDevice(deviceId, turnOn ? "on" : "off");
     }
   };
 
@@ -119,6 +93,7 @@ const SmartSecurity = ({ sceneId, sceneName = "智能安防", deviceId }) => {
       <View className="header">
         <Text className="title">{sceneName}</Text>
         {deviceId && <Text className="device-id">设备ID: {deviceId}</Text>}
+        {buzzerId && <Text className="device-id">蜂鸣器ID: {buzzerId}</Text>}
       </View>
 
       <View className="content">
@@ -135,43 +110,42 @@ const SmartSecurity = ({ sceneId, sceneName = "智能安防", deviceId }) => {
             <Text>{statusInfo.buttonText}</Text>
           </View>
         </View>
-
-        {deviceId && (
+        {buzzerId && (
           <View className="card manual-control-card">
-            <Text className="card-title">手动控制</Text>
-            <View className="control-buttons">
+            <Text className="card-title">蜂鸣器手动控制</Text>
+            <View
+              className="control-buttons"
+              style={{ background: "#eee", minHeight: 40 }}
+            >
               <View
-                className="control-button alarm-on"
-                onClick={() => toggleBuzzer(true)}
+                className="control-button buzzer-on"
+                onClick={() => {
+                  controlDevice(buzzerId, "on");
+                  Taro.showToast({
+                    title: "蜂鸣器已开启",
+                    icon: "success",
+                    duration: 1500,
+                  });
+                }}
               >
                 <Text>开启警报</Text>
               </View>
               <View
-                className="control-button alarm-off"
-                onClick={() => toggleBuzzer(false)}
+                className="control-button buzzer-off"
+                onClick={() => {
+                  controlDevice(buzzerId, "off");
+                  Taro.showToast({
+                    title: "蜂鸣器已关闭",
+                    icon: "success",
+                    duration: 1500,
+                  });
+                }}
               >
                 <Text>关闭警报</Text>
               </View>
             </View>
           </View>
         )}
-
-        <View className="card log-card">
-          <Text className="card-title">活动日志</Text>
-          <View className="log-list">
-            {logs.map((log, index) => (
-              <View key={index} className="log-item">
-                <Text className="log-content">{log.content}</Text>
-                <Text
-                  className={`log-time ${log.status === "alert" ? "alert" : ""}`}
-                >
-                  {log.time}
-                  {log.extraInfo ? ` - ${log.extraInfo}` : ""}
-                </Text>
-              </View>
-            ))}
-          </View>
-        </View>
       </View>
     </View>
   );

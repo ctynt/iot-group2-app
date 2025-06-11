@@ -25,3 +25,15 @@ export const controlScene = (sceneId, command) => {
     url: `/iot/api/command/controlScene?sceneId=${sceneId}&command=${command}`,
   });
 };
+
+/**
+ * 获取指定设备信息
+ * @param {string} deviceId - 设备ID
+ * @returns {Promise<Object>} 设备信息
+ */
+export const getDevice = (deviceId) => {
+  return http({
+    method: "GET",
+    url: `/iot/api/device/${deviceId}`,
+  });
+};

@@ -1,11 +1,13 @@
-import { View, Text, Image } from "@tarojs/components";
 import { useState } from "react";
+import { View, Text, Image } from "@tarojs/components";
+import Taro from "@tarojs/taro";
+
 import { controlScene, controlDevice } from "@/service/command";
 import "./index.scss";
 
 const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
   // 风扇速度: 'off'(关闭), 'low'(低速), 'medium'(中速), 'high'(高速)
-  const [fanSpeed, setFanSpeed] = useState("low");
+  const [fanSpeed, setFanSpeed] = useState("off");
 
   // 处理风扇速度控制
   const handleSpeedChange = (speed) => {
@@ -52,6 +54,10 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
     } else {
       controlScene(sceneId, command);
     }
+    Taro.showToast({
+      title: newSpeed === "off" ? "风扇已关闭" : "风扇已开启",
+      icon: "success",
+    });
   };
 
   // 获取风扇状态文本
@@ -59,14 +65,8 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
     switch (fanSpeed) {
       case "off":
         return "已关闭";
-      case "low":
-        return "低速";
-      case "medium":
-        return "中速";
-      case "high":
-        return "高速";
       default:
-        return "未知状态";
+        return "已开启";
     }
   };
 
@@ -88,8 +88,7 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
         </View>
 
         <View className="card control-card">
-          <Text className="card-title">速度调节</Text>
-
+          <Text className="card-title">风扇开关</Text>
           <View className="power-button-container">
             <View
               className={`power-button ${fanSpeed === "off" ? "" : "active"}`}
@@ -104,39 +103,6 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
               </Text>
             </View>
           </View>
-
-          <View className="speed-controls">
-            <View
-              className={`speed-button ${fanSpeed === "low" ? "active" : ""}`}
-              onClick={() => handleSpeedChange("low")}
-            >
-              <Image
-                className="speed-icon"
-                src="https://unpkg.com/lucide-static@latest/icons/wind.svg"
-              />
-              <Text className="speed-text">低速</Text>
-            </View>
-            <View
-              className={`speed-button ${fanSpeed === "medium" ? "active" : ""}`}
-              onClick={() => handleSpeedChange("medium")}
-            >
-              <Image
-                className="speed-icon"
-                src="https://unpkg.com/lucide-static@latest/icons/wind.svg"
-              />
-              <Text className="speed-text">中速</Text>
-            </View>
-            <View
-              className={`speed-button ${fanSpeed === "high" ? "active" : ""}`}
-              onClick={() => handleSpeedChange("high")}
-            >
-              <Image
-                className="speed-icon"
-                src="https://unpkg.com/lucide-static@latest/icons/wind.svg"
-              />
-              <Text className="speed-text">高速</Text>
-            </View>
-          </View>
         </View>
 
         <View className="card auto-control-card">
@@ -145,6 +111,10 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
             className="auto-button"
             onClick={() => {
               controlScene(sceneId, "autofan_on");
+              Taro.showToast({
+                title: "已启用自动控制",
+                icon: "success",
+              });
             }}
           >
             <Text>启用自动控制</Text>
@@ -153,6 +123,10 @@ const SmartFan = ({ sceneId, sceneName = "智能风扇", deviceId }) => {
             className="manual-button"
             onClick={() => {
               controlScene(sceneId, "autofan_off");
+              Taro.showToast({
+                title: "已切换到手动控制",
+                icon: "success",
+              });
             }}
           >
             <Text>切换到手动控制</Text>

@@ -4,7 +4,7 @@ import { controlScene, controlDevice } from "@/service/command";
 import "./index.scss";
 
 const SmartLighting = ({ sceneId, sceneName = "智能照明", deviceId }) => {
-  const [isOn, setIsOn] = useState(true);
+  const [isOn, setIsOn] = useState(false);
   const [isAuto, setIsAuto] = useState(false);
 
   // 处理开关灯

@@ -273,14 +273,27 @@ export default function SceneDetail() {
       ? scene.devices.map((device) => device.deviceId || device.id)
       : [];
 
-  // 传递第一个设备ID（如果存在）给组件
-  const primaryDeviceId = deviceIds.length > 0 ? deviceIds[0] : "";
+  // 根据设备类型自动分配ID
+  let devicesByType = { led: "", sensor: "", fan: "", buzzer: "" };
+  if (scene.devices && Array.isArray(scene.devices)) {
+    scene.devices.forEach((device) => {
+      const type = device.deviceType || device.type;
+      if (type === 1) devicesByType.led = device.deviceId || device.id;
+      if (type === 2) devicesByType.sensor = device.deviceId || device.id;
+      if (type === 3) devicesByType.buzzer = device.deviceId || device.id;
+      if (type === 5) devicesByType.fan = device.deviceId || device.id;
+    });
+  }
 
   // 如果是环境监测场景，显示SmartEnvironment组件
   if (scene.type === "1" && !isEditing) {
     return (
       <View className="scene-detail">
-        <SmartEnvironment sceneName={scene.name} deviceId={primaryDeviceId} />
+        <SmartEnvironment
+          sceneId={sceneId}
+          sceneName={scene.name}
+          deviceIds={devicesByType}
+        />
         <View className="actions">
           <AtButton type="primary" onClick={handleEdit}>
             编辑场景
@@ -300,7 +313,7 @@ export default function SceneDetail() {
         <SmartLighting
           sceneId={sceneId}
           sceneName={scene.name}
-          deviceId={primaryDeviceId}
+          deviceId={devicesByType.led}
         />
         <View className="actions">
           <AtButton type="primary" onClick={handleEdit}>
@@ -321,7 +334,8 @@ export default function SceneDetail() {
         <SmartSecurity
           sceneId={sceneId}
           sceneName={scene.name}
-          deviceId={primaryDeviceId}
+          deviceId={devicesByType.sensor}
+          buzzerId={devicesByType.buzzer}
         />
         <View className="actions">
           <AtButton type="primary" onClick={handleEdit}>
@@ -342,7 +356,7 @@ export default function SceneDetail() {
         <SmartFan
           sceneId={sceneId}
           sceneName={scene.name}
-          deviceId={primaryDeviceId}
+          deviceId={devicesByType.fan}
         />
         <View className="actions">
           <AtButton type="primary" onClick={handleEdit}>

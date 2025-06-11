@@ -2,26 +2,21 @@ import { useState, useEffect } from "react";
 import { View, Text, Image } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { AtButton, AtSwitch } from "taro-ui";
+import { controlScene, controlDevice, getDevice } from "@/service/command";
 import "./index.scss";
 
 // 图标引用
 const ICONS = {
   temperature: "https://unpkg.com/lucide-static@latest/icons/thermometer.svg",
   humidity: "https://unpkg.com/lucide-static@latest/icons/droplets.svg",
-  light: "https://unpkg.com/lucide-static@latest/icons/sun.svg",
-  airQuality: "https://unpkg.com/lucide-static@latest/icons/cloud.svg",
   fan: "https://unpkg.com/lucide-static@latest/icons/wind.svg",
   led: "https://unpkg.com/lucide-static@latest/icons/lightbulb.svg",
-  back: "https://unpkg.com/lucide-static@latest/icons/arrow-left.svg",
-  settings: "https://unpkg.com/lucide-static@latest/icons/settings-2.svg",
 };
 
-const SmartEnvironment = ({ sceneName, deviceId }) => {
+const SmartEnvironment = ({ sceneName, deviceIds, sceneId }) => {
   const [environmentData, setEnvironmentData] = useState({
     temperature: "24.5",
     humidity: "55",
-    lightIntensity: "850",
-    airQuality: "35",
   });
 
   const [controls, setControls] = useState({
@@ -29,12 +24,12 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
     led: { active: false, threshold: 500, manual: false },
   });
 
-  const [autoMode, setAutoMode] = useState(true);
+  const [autoMode, setAutoMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    if (deviceId) {
+    if (deviceIds && (deviceIds.sensor || deviceIds.fan || deviceIds.led)) {
       fetchEnvironmentData();
     } else {
       setLoading(false);
@@ -46,33 +41,30 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
     }, 30000);
 
     return () => clearInterval(timer);
-  }, [deviceId]);
+  }, [deviceIds]);
+
+  useEffect(() => {
+    setControls((prevControls) => ({
+      fan: { ...prevControls.fan, active: false },
+      led: { ...prevControls.led, active: false },
+    }));
+  }, []);
 
   const fetchEnvironmentData = async () => {
     try {
       setLoading(true);
-
-      // 这里应该是实际的API调用，获取设备的环境数据
-      // 以下是模拟数据
-      // 实际实现应该调用对应的API
-      // const response = await getDeviceData(deviceId);
-
-      // 模拟延迟
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // 模拟数据
-      const data = {
-        temperature: (20 + Math.random() * 10).toFixed(1),
-        humidity: Math.floor(40 + Math.random() * 40),
-        lightIntensity: Math.floor(300 + Math.random() * 700),
-        airQuality: Math.floor(20 + Math.random() * 40),
-      };
-
-      setEnvironmentData(data);
-
-      // 自动控制逻辑
-      if (autoMode) {
-        updateControlStatus(data);
+      if (deviceIds.sensor) {
+        const res = await getDevice(deviceIds.sensor);
+        const device = res.data ? res.data : res;
+        setEnvironmentData({
+          temperature:
+            typeof device.temperature === "number" ? device.temperature : "--",
+          humidity:
+            typeof device.humidity === "number" ? device.humidity : "--",
+        });
+        if (autoMode) {
+          updateControlStatus(device);
+        }
       }
     } catch (error) {
       console.error("获取环境数据失败:", error);
@@ -86,7 +78,6 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
   };
 
   const updateControlStatus = (data) => {
-    // 根据环境数据更新控制设备状态
     setControls((prevControls) => ({
       fan: {
         ...prevControls.fan,
@@ -95,7 +86,7 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
       },
       led: {
         ...prevControls.led,
-        active: parseInt(data.lightIntensity) < 500,
+        active: false, // 这里可以根据需要调整LED灯的自动控制逻辑
         threshold: 500,
       },
     }));
@@ -104,9 +95,21 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
   const toggleAutoMode = (value) => {
     setAutoMode(value);
     if (value) {
-      // 切换到自动模式时，根据当前环境数据更新设备状态
       updateControlStatus(environmentData);
+      sendAutoControlCommand(value);
+    } else {
+      sendAutoControlCommand(false);
     }
+  };
+
+  const sendAutoControlCommand = (isAutoOn) => {
+    const command = isAutoOn ? "autolight_on" : "autolight_off";
+    controlScene(sceneId, command);
+    Taro.showToast({
+      title: `${isAutoOn ? "自动照明已开启" : "自动照明已关闭"}`,
+      icon: "success",
+      duration: 1500,
+    });
   };
 
   const toggleDevice = (device, value) => {
@@ -118,13 +121,22 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
         manual: !autoMode,
       },
     }));
-
-    // 实际应用中，这里应该调用API来控制设备
-    Taro.showToast({
-      title: `${device === "fan" ? "风扇" : "LED灯"}已${value ? "开启" : "关闭"}`,
-      icon: "success",
-      duration: 1500,
-    });
+    const command = value ? "on" : "off";
+    const deviceId = deviceIds[device];
+    if (deviceId) {
+      controlDevice(deviceId, `${command}`);
+      Taro.showToast({
+        title: `${device === "fan" ? "风扇" : "LED灯"}已${value ? "开启" : "关闭"}`,
+        icon: "success",
+        duration: 1500,
+      });
+    } else {
+      Taro.showToast({
+        title: `未找到${device === "fan" ? "风扇" : "LED灯"}设备`,
+        icon: "none",
+        duration: 1500,
+      });
+    }
   };
 
   const refreshData = () => {
@@ -152,9 +164,20 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
       {/* 顶部导航 */}
       <View className="header">
         <Text className="title">{sceneName}</Text>
-        {deviceId && <Text className="device-id">设备ID: {deviceId}</Text>}
+        {deviceIds && (
+          <>
+            {deviceIds.sensor && (
+              <Text className="device-id">传感器ID: {deviceIds.sensor}</Text>
+            )}
+            {deviceIds.fan && (
+              <Text className="device-id">风扇ID: {deviceIds.fan}</Text>
+            )}
+            {deviceIds.led && (
+              <Text className="device-id">LED灯ID: {deviceIds.led}</Text>
+            )}
+          </>
+        )}
       </View>
-
       <View className="content">
         {/* 当前环境数据卡片 */}
         <View className="card status-card">
@@ -162,7 +185,6 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
           <Text className="status-title">环境监测</Text>
           <Text className="status-text">数据更新时间: 刚刚</Text>
         </View>
-
         {/* 环境数据指标卡片 */}
         <View className="card data-card">
           <Text className="card-title">环境数据</Text>
@@ -179,7 +201,6 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
                 </Text>
               </View>
             </View>
-
             <View className="data-item">
               <Image className="data-icon humidity" src={ICONS.humidity} />
               <View className="data-content">
@@ -187,29 +208,8 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
                 <Text className="data-value">{environmentData.humidity}%</Text>
               </View>
             </View>
-
-            <View className="data-item">
-              <Image className="data-icon light" src={ICONS.light} />
-              <View className="data-content">
-                <Text className="data-label">光照强度</Text>
-                <Text className="data-value">
-                  {environmentData.lightIntensity} Lux
-                </Text>
-              </View>
-            </View>
-
-            <View className="data-item">
-              <Image className="data-icon air" src={ICONS.airQuality} />
-              <View className="data-content">
-                <Text className="data-label">空气质量 (PM2.5)</Text>
-                <Text className="data-value">
-                  {environmentData.airQuality} μg/m³
-                </Text>
-              </View>
-            </View>
           </View>
         </View>
-
         {/* 控制模式切换 */}
         <View className="card control-card">
           <Text className="card-title">控制模式</Text>
@@ -222,65 +222,58 @@ const SmartEnvironment = ({ sceneName, deviceId }) => {
             />
           </View>
         </View>
-
         {/* 控制设备卡片 */}
         <View className="card device-control-card">
-          <Text className="card-title">
-            {autoMode ? "自动控制状态" : "手动控制"}
-          </Text>
-
+          <Text className="card-title">手动控制</Text>
           <View className="control-items">
-            <View className="control-item">
-              <View className="control-info">
-                <Image className="control-icon" src={ICONS.fan} />
-                <Text className="control-name">智能风扇</Text>
-              </View>
-              {autoMode ? (
-                <Text
-                  className={`control-status ${controls.fan.active ? "active" : "inactive"}`}
-                >
-                  {controls.fan.active ? "自动开启" : "自动关闭"} (湿度{" "}
-                  {controls.fan.active ? ">" : "<="} {controls.fan.threshold}%)
-                </Text>
-              ) : (
+            {deviceIds.fan && (
+              <View className="control-item">
+                <View className="control-info">
+                  <Image className="control-icon" src={ICONS.fan} />
+                  <Text className="control-name">智能风扇</Text>
+                </View>
                 <View className="control-button">
                   <View
-                    className={`device-button ${controls.fan.active ? "active" : ""}`}
-                    onClick={() => toggleDevice("fan", !controls.fan.active)}
+                    className={`device-button ${controls.fan.active ? "active" : ""} ${autoMode ? "disabled" : ""}`}
+                    onClick={
+                      !autoMode
+                        ? () => toggleDevice("fan", !controls.fan.active)
+                        : undefined
+                    }
+                    style={
+                      autoMode ? { opacity: 0.5, pointerEvents: "none" } : {}
+                    }
                   >
                     <Text>{controls.fan.active ? "关闭" : "开启"}</Text>
                   </View>
                 </View>
-              )}
-            </View>
-
-            <View className="control-item">
-              <View className="control-info">
-                <Image className="control-icon" src={ICONS.led} />
-                <Text className="control-name">LED 补光灯</Text>
               </View>
-              {autoMode ? (
-                <Text
-                  className={`control-status ${controls.led.active ? "active" : "inactive"}`}
-                >
-                  {controls.led.active ? "自动开启" : "自动关闭"} (光照{" "}
-                  {controls.led.active ? "<" : ">="} {controls.led.threshold}{" "}
-                  Lux)
-                </Text>
-              ) : (
+            )}
+            {deviceIds.led && (
+              <View className="control-item">
+                <View className="control-info">
+                  <Image className="control-icon" src={ICONS.led} />
+                  <Text className="control-name">LED 补光灯</Text>
+                </View>
                 <View className="control-button">
                   <View
-                    className={`device-button ${controls.led.active ? "active" : ""}`}
-                    onClick={() => toggleDevice("led", !controls.led.active)}
+                    className={`device-button ${controls.led.active ? "active" : ""} ${autoMode ? "disabled" : ""}`}
+                    onClick={
+                      !autoMode
+                        ? () => toggleDevice("led", !controls.led.active)
+                        : undefined
+                    }
+                    style={
+                      autoMode ? { opacity: 0.5, pointerEvents: "none" } : {}
+                    }
                   >
                     <Text>{controls.led.active ? "关闭" : "开启"}</Text>
                   </View>
                 </View>
-              )}
-            </View>
+              </View>
+            )}
           </View>
         </View>
-
         {/* 刷新按钮 */}
         <View className="refresh-button-container">
           <View className="refresh-button" onClick={refreshData}>
