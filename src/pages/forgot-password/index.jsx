@@ -89,7 +89,7 @@ const ForgotPasswordPage = () => {
         mobile: form.mobile,
         code: form.code
       });
-      
+
       if (res && res.accessToken) {
         // 保存token和用户信息
         Taro.setStorageSync('token', res.accessToken);
@@ -139,7 +139,7 @@ const ForgotPasswordPage = () => {
         mobile: form.mobile,
         password: form.password
       });
-      
+
       Taro.showModal({
         title: '密码重置成功',
         content: '请使用新密码登录',
@@ -182,20 +182,20 @@ const ForgotPasswordPage = () => {
       {step === 1 ? (
         <View className="forgot-password-form">
           <View className="input-container">
-            <Input 
-              type="text" 
-              placeholder="手机号" 
-              className="input-field" 
+            <Input
+              type="text"
+              placeholder="手机号"
+              className="input-field"
               value={form.mobile}
               onInput={(e) => handleInputChange('mobile', e)}
             />
           </View>
 
           <View className="code-container">
-            <Input 
-              type="text" 
-              placeholder="验证码" 
-              className="input-field code-input" 
+            <Input
+              type="text"
+              placeholder="验证码"
+              className="input-field code-input"
               value={form.code}
               onInput={(e) => handleInputChange('code', e)}
             />
@@ -215,20 +215,20 @@ const ForgotPasswordPage = () => {
       ) : (
         <View className="forgot-password-form">
           <View className="input-container">
-            <Input 
-              type="password" 
-              placeholder="新密码" 
-              className="input-field" 
+            <Input
+              type="password"
+              placeholder="新密码"
+              className="input-field"
               value={form.password}
               onInput={(e) => handleInputChange('password', e)}
             />
           </View>
 
           <View className="input-container">
-            <Input 
-              type="password" 
-              placeholder="确认新密码" 
-              className="input-field" 
+            <Input
+              type="password"
+              placeholder="确认新密码"
+              className="input-field"
               value={form.confirmPassword}
               onInput={(e) => handleInputChange('confirmPassword', e)}
             />

@@ -45,11 +45,11 @@
 
   .input-container {
     margin-bottom: 20px;
-    
+
     position: relative;
 
     .input-field {
-      
+
       height: 80px;
       border: 1px solid #ddd;
       border-radius: 12px;
@@ -62,7 +62,7 @@
   .code-container {
     display: flex;
     margin-bottom: 20px;
-   
+
     position: relative;
 
     .code-input {
@@ -76,7 +76,7 @@
     }
 
     .code-button {
-      width: 120px;
+      width: 140px;
       height: 80px;
       line-height: 80px;
       text-align: center;
@@ -109,7 +109,7 @@
     justify-content: space-between;
     width: 80%;
 
-    .login-text { 
+    .login-text {
       font-size: 32px;
       color: #666;
     }
