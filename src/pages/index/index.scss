@@ -116,3 +116,37 @@
     font-size: 24px;
   }
 }
+
+.load-more-container {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.loading-tip,
+.no-more-tip {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  color: #999;
+  font-size: 24px;
+  margin: 0 auto;
+  grid-column: 1 / -1;
+}
+
+.no-more-tip {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.empty-devices {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  color: #999;
+  font-size: 28px;
+}

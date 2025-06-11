@@ -49,7 +49,6 @@
 }
 
 .input-field {
-  width: 100%;
   height: 80px;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
@@ -58,9 +57,11 @@
   background-color: #fff;
 }
 
-.forgot-password {
-  text-align: right;
-  margin: 38px 0px;
+.links {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-top: 20px;
 }
 
 .link-text {
@@ -68,73 +69,26 @@
   font-size: 28px;
 }
 
-.login-button {
-  height: 80px;
-  background-color: #3883f6;
-  color: white;
-  border-radius: 12px;
+.submit-button {
+
+  height: 88px;
+  line-height: 88px;
+  background: #007bff;
+  border-radius: 8px;
+  color: #fff;
   font-size: 32px;
-  font-weight: bold;
+  margin-top: 48px;
   border: none;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.divider {
-  width: 100%;
-  text-align: center;
-  margin: 20px 0;
-  position: relative;
-}
-
-.divider-text {
-  background-color: #fff;
-  padding: 0 10px;
-  color: #999;
-  font-size: 24px;
-  position: relative;
-  z-index: 1;
-}
-
-.divider::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: #e0e0e0;
-  z-index: 0;
-}
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.social-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #f0f8ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #4594d5;
-  font-weight: bold;
-  font-size: larger;
-}
-
-.register-link {
-  display: flex;
-  justify-content: center;
-  font-size: 28px;
-}
-
-.register-text {
-  color: #666;
+.phone-login-button {
+  height: 88px;
+  line-height: 88px;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  color: #007bff;
+  font-size: 32px;
+  margin-top: 36px;
+  margin-bottom:24px;
 }

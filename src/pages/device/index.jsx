@@ -89,31 +89,21 @@ export default function Index() {
 
   const handleSave = async () => {
     try {
-      const res = await editDevice(editForm);
-      // 修改前: if (res && res.code === 0)
-      // 修改后: 直接使用返回的数据
-      if (res) {
-        Taro.showToast({
-          title: "修改成功",
-          icon: "success",
-        });
-        setIsEditing(false);
-        // 刷新设备信息
-        const detailRes = await getDeviceDetail(device.deviceId);
-        // 修改前: if (detailRes.code === 0 && detailRes.data)
-        // 修改后: 直接使用返回的数据
-        if (detailRes) {
-          setDevice(detailRes);
-        }
-      } else {
-        Taro.showToast({
-          title: "修改失败",
-          icon: "error",
-        });
+      await editDevice(editForm);
+      Taro.showToast({
+        title: "修改成功",
+        icon: "success",
+      });
+      setIsEditing(false);
+      // 刷新设备信息
+      const detailRes = await getDeviceDetail(device.deviceId);
+      if (detailRes) {
+        setDevice(detailRes);
       }
     } catch (error) {
+      // 添加错误处理，显示错误提示
       Taro.showToast({
-        title: "修改失败",
+        title: error.message || "修改失败",
         icon: "error",
       });
     }
@@ -186,6 +176,13 @@ export default function Index() {
           {!isEditing ? (
             // 查看模式
             <>
+              {device.type === 1 && (
+                <View className="show-card">
+                  <image src="https://unpkg.com/lucide-static@latest/icons/lightbulb.svg" />
+                  <h2>已开启</h2>
+                </View>
+              )}
+
               <View className="card-header">
                 <Text className="device-name">{device.name}</Text>
                 <Text
@@ -198,6 +195,7 @@ export default function Index() {
               </View>
 
               <View className="card-content">
+                <h2>设备信息</h2>
                 <View className="info-item">
                   <Text className="label">设备ID</Text>
                   <Text className="value">{device.deviceId}</Text>
@@ -211,7 +209,7 @@ export default function Index() {
                 <View className="info-item">
                   <Text className="label">开关状态</Text>
                   <Text className="value">
-                    {device.isSwitched === 1 ? "开" : "关"}
+                    {device.isSwitched === 0 ? "开" : "关"}
                   </Text>
                 </View>
 
@@ -230,11 +228,11 @@ export default function Index() {
                 )}
               </View>
 
-              <View className="card-footer">
+              {/* <View className="card-footer">
                 <AtButton type="primary" onClick={handleEdit}>
                   修改设备
                 </AtButton>
-              </View>
+              </View> */}
             </>
           ) : (
             // 编辑模式

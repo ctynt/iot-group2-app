@@ -4,13 +4,15 @@ export default defineAppConfig({
     "pages/login/index",
     "pages/register/index",
     "pages/forgot-password/index",
+    "pages/phone-login/index",
     "pages/my/index",
     "pages/editUser/index",
     "pages/scene/index",
     "pages/device/index",
     "pages/scene/add/index",
     "pages/scene/detail/index",
-    "pages/device/add/index", 
+    "pages/scene/edit/index", // 添加修改场景页面路由
+    "pages/device/add/index",
   ],
   window: {
     backgroundTextStyle: "light",
