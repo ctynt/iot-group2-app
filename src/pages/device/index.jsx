@@ -57,17 +57,15 @@ export default function Index() {
       case 1:
         return "灯";
       case 2:
-        return "温湿度传感器";
+        return "风扇";
       case 3:
         return "蜂鸣器";
       case 4:
-        return "红外传感器";
+        return "温湿度传感器";
       case 5:
-        return "光敏传感器";
+        return "人体红外传感器";
       case 6:
-        return "触摸传感器";
-      case 7:
-        return "风扇";
+        return "光敏";
       default:
         return "未知设备";
     }
@@ -119,12 +117,11 @@ export default function Index() {
 
   const deviceTypes = [
     { label: "灯", value: 1 },
-    { label: "温湿度传感器", value: 2 },
+    { label: "风扇", value: 2 },
     { label: "蜂鸣器", value: 3 },
-    { label: "红外传感器", value: 4 },
-    { label: "光敏传感器", value: 5 },
-    { label: "触摸传感器", value: 6 },
-    { label: "风扇", value: 7 },
+    { label: "温湿度传感器", value: 4 },
+    { label: "人体红外传感器", value: 5 },
+    { label: "光敏传感器", value: 6 },
   ];
 
   return (
@@ -213,7 +210,7 @@ export default function Index() {
                   </Text>
                 </View>
 
-                {device.type === 2 && (
+                {device.type === 4 && (
                   <>
                     <View className="info-item">
                       <Text className="label">温度</Text>

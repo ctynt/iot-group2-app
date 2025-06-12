@@ -8,12 +8,11 @@ import "./index.scss";
 export default function Index() {
   const deviceTypes = [
     { label: "灯", value: 1 },
-    { label: "温湿度传感器", value: 2 },
+    { label: "风扇", value: 2 },
     { label: "蜂鸣器", value: 3 },
-    { label: "红外传感器", value: 4 },
-    { label: "光敏传感器", value: 5 },
-    { label: "触摸传感器", value: 6 },
-    { label: "风扇", value: 7 },
+    { label: "温湿度传感器", value: 4 },
+    { label: "人体红外传感器", value: 5 },
+    { label: "光敏传感器", value: 6 },
   ];
 
   const [deviceInfo, setDeviceInfo] = useState({
