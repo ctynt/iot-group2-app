@@ -20,6 +20,7 @@ export default function AddScene() {
   // 从Redux获取用户ID
   const userInfo = useAppSelector((state) => state.user);
   const userId = userInfo.id;
+  const tenantId = userInfo.tenantId;
 
   // 场景类型定义
   const sceneTypes = [
@@ -40,6 +41,7 @@ export default function AddScene() {
       const result = await getDeviceList({
         page: 1,
         limit: 100,
+        tenantId: tenantId
       });
 
       if (result && result.list) {

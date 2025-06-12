@@ -35,9 +35,8 @@ export default function SceneDetail() {
   // 从Redux获取用户ID
   const userInfo = useAppSelector((state) => state.user);
   const userId = userInfo.id;
-
   const sceneId = Taro.getCurrentInstance().router.params.id;
-
+  const tenantId = userInfo.tenantId;
   // 场景类型定义
   const sceneTypes = [
     { id: "1", name: "环境检测", icon: "environment" },
@@ -107,7 +106,9 @@ export default function SceneDetail() {
       const result = await getDeviceList({
         page: 1,
         limit: 100,
+        tenantId: tenantId
       });
+
 
       if (result && result.list) {
         console.log("设备列表:", result.list);
@@ -179,7 +180,7 @@ export default function SceneDetail() {
         description: editForm.description,
         type: editForm.type,
         deviceIds: editForm.deviceIds,
-        tenantId: 0, // 根据实际情况设置
+        tenantId: tenantId, // 根据实际情况设置
       };
 
       console.log("提交修改场景数据:", sceneData);
@@ -252,7 +253,7 @@ export default function SceneDetail() {
 
   if (loading) {
     return (
-      <View className="scene-detail loading-container">
+      <View className='scene-detail loading-container'>
         <Text>加载中...</Text>
       </View>
     );
@@ -260,7 +261,7 @@ export default function SceneDetail() {
 
   if (error || !scene) {
     return (
-      <View className="scene-detail error-container">
+      <View className='scene-detail error-container'>
         <Text>{error || "未找到场景信息"}</Text>
         <AtButton onClick={() => Taro.navigateBack()}>返回</AtButton>
       </View>
@@ -288,17 +289,17 @@ export default function SceneDetail() {
   // 如果是环境监测场景，显示SmartEnvironment组件
   if (scene.type === "1" && !isEditing) {
     return (
-      <View className="scene-detail">
+      <View className='scene-detail'>
         <SmartEnvironment
           sceneId={sceneId}
           sceneName={scene.name}
           deviceIds={devicesByType}
         />
-        <View className="actions">
-          <AtButton type="primary" onClick={handleEdit}>
+        <View className='actions'>
+          <AtButton type='primary' onClick={handleEdit}>
             编辑场景
           </AtButton>
-          <AtButton type="secondary" onClick={handleDelete}>
+          <AtButton type='secondary' onClick={handleDelete}>
             删除场景
           </AtButton>
         </View>
@@ -309,17 +310,17 @@ export default function SceneDetail() {
   // 如果是智能照明场景，显示SmartLighting组件
   if (scene.type === "3" && !isEditing) {
     return (
-      <View className="scene-detail">
+      <View className='scene-detail'>
         <SmartLighting
           sceneId={sceneId}
           sceneName={scene.name}
           deviceId={devicesByType.led}
         />
-        <View className="actions">
-          <AtButton type="primary" onClick={handleEdit}>
+        <View className='actions'>
+          <AtButton type='primary' onClick={handleEdit}>
             编辑场景
           </AtButton>
-          <AtButton type="secondary" onClick={handleDelete}>
+          <AtButton type='secondary' onClick={handleDelete}>
             删除场景
           </AtButton>
         </View>
@@ -330,18 +331,18 @@ export default function SceneDetail() {
   // 如果是智能安防场景，显示SmartSecurity组件
   if (scene.type === "2" && !isEditing) {
     return (
-      <View className="scene-detail">
+      <View className='scene-detail'>
         <SmartSecurity
           sceneId={sceneId}
           sceneName={scene.name}
           deviceId={devicesByType.sensor}
           buzzerId={devicesByType.buzzer}
         />
-        <View className="actions">
-          <AtButton type="primary" onClick={handleEdit}>
+        <View className='actions'>
+          <AtButton type='primary' onClick={handleEdit}>
             编辑场景
           </AtButton>
-          <AtButton type="secondary" onClick={handleDelete}>
+          <AtButton type='secondary' onClick={handleDelete}>
             删除场景
           </AtButton>
         </View>
@@ -352,17 +353,17 @@ export default function SceneDetail() {
   // 如果是智能风扇场景，显示SmartFan组件
   if (scene.type === "4" && !isEditing) {
     return (
-      <View className="scene-detail">
+      <View className='scene-detail'>
         <SmartFan
           sceneId={sceneId}
           sceneName={scene.name}
           deviceId={devicesByType.fan}
         />
-        <View className="actions">
-          <AtButton type="primary" onClick={handleEdit}>
+        <View className='actions'>
+          <AtButton type='primary' onClick={handleEdit}>
             编辑场景
           </AtButton>
-          <AtButton type="secondary" onClick={handleDelete}>
+          <AtButton type='secondary' onClick={handleDelete}>
             删除场景
           </AtButton>
         </View>
@@ -371,18 +372,18 @@ export default function SceneDetail() {
   }
 
   return (
-    <View className="scene-detail">
+    <View className='scene-detail'>
       {isEditing ? (
         // 编辑模式
-        <View className="edit-form">
+        <View className='edit-form'>
           <AtForm>
-            <View className="form-card">
-              <View className="input-group">
-                <Text className="label">场景名称</Text>
+            <View className='form-card'>
+              <View className='input-group'>
+                <Text className='label'>场景名称</Text>
                 <AtInput
-                  className="input"
-                  type="text"
-                  placeholder="给场景起个名字"
+                  className='input'
+                  type='text'
+                  placeholder='给场景起个名字'
                   value={editForm.name}
                   onChange={(value) =>
                     setEditForm({ ...editForm, name: value })
@@ -390,9 +391,9 @@ export default function SceneDetail() {
                 />
               </View>
 
-              <View className="input-group">
-                <Text className="label">场景类型</Text>
-                <View className="type-grid">
+              <View className='input-group'>
+                <Text className='label'>场景类型</Text>
+                <View className='type-grid'>
                   {sceneTypes.map((type) => (
                     <View
                       key={type.id}
@@ -402,16 +403,16 @@ export default function SceneDetail() {
                       }
                     >
                       <Text className={`at-icon at-icon-${type.icon}`} />
-                      <Text className="type-name">{type.name}</Text>
+                      <Text className='type-name'>{type.name}</Text>
                     </View>
                   ))}
                 </View>
               </View>
 
-              <View className="input-group">
-                <Text className="label">选择设备</Text>
+              <View className='input-group'>
+                <Text className='label'>选择设备</Text>
                 {devices.length > 0 ? (
-                  <View className="device-list">
+                  <View className='device-list'>
                     {devices.map((device) => (
                       <View
                         key={device.deviceId || device.id}
@@ -428,7 +429,7 @@ export default function SceneDetail() {
                           setEditForm({ ...editForm, deviceIds: newSelected });
                         }}
                       >
-                        <Text className="device-name">{device.name}</Text>
+                        <Text className='device-name'>{device.name}</Text>
                         <Text
                           className={`status ${device.status === 1 ? "online" : "offline"}`}
                         >
@@ -438,28 +439,28 @@ export default function SceneDetail() {
                     ))}
                   </View>
                 ) : (
-                  <View className="empty-devices">暂无可用设备</View>
+                  <View className='empty-devices'>暂无可用设备</View>
                 )}
               </View>
 
-              <View className="input-group">
-                <Text className="label">场景描述</Text>
+              <View className='input-group'>
+                <Text className='label'>场景描述</Text>
                 <AtTextarea
-                  className="textarea"
+                  className='textarea'
                   value={editForm.description}
                   onChange={(value) =>
                     setEditForm({ ...editForm, description: value })
                   }
                   maxLength={200}
-                  placeholder="描述一下这个场景的用途"
+                  placeholder='描述一下这个场景的用途'
                 />
               </View>
             </View>
 
-            <View className="button-group">
+            <View className='button-group'>
               <AtButton onClick={handleCancel}>取消</AtButton>
               <AtButton
-                type="primary"
+                type='primary'
                 onClick={handleSave}
                 loading={submitting}
               >
@@ -471,21 +472,21 @@ export default function SceneDetail() {
       ) : (
         // 查看模式
         <>
-          <View className="header">
-            <Text className="title">{scene.name || "未命名场景"}</Text>
-            <Text className="description">{scene.description || "无描述"}</Text>
+          <View className='header'>
+            <Text className='title'>{scene.name || "未命名场景"}</Text>
+            <Text className='description'>{scene.description || "无描述"}</Text>
           </View>
 
-          <View className="section">
-            <Text className="section-title">关联设备</Text>
-            <View className="device-list">
+          <View className='section'>
+            <Text className='section-title'>关联设备</Text>
+            <View className='device-list'>
               {scene.devices &&
               Array.isArray(scene.devices) &&
               scene.devices.length > 0 ? (
                 scene.devices.map((device, index) => (
-                  <View key={device.deviceId || index} className="device-item">
-                    <View className="device-info">
-                      <Text className="device-name">
+                  <View key={device.deviceId || index} className='device-item'>
+                    <View className='device-info'>
+                      <Text className='device-name'>
                         {device.name || device.deviceName || "未命名设备"}
                       </Text>
                       <View
@@ -501,18 +502,18 @@ export default function SceneDetail() {
                   </View>
                 ))
               ) : (
-                <View className="empty-devices">
+                <View className='empty-devices'>
                   <Text>暂无关联设备</Text>
                 </View>
               )}
             </View>
           </View>
 
-          <View className="actions">
-            <AtButton type="primary" onClick={handleEdit}>
+          <View className='actions'>
+            <AtButton type='primary' onClick={handleEdit}>
               编辑场景
             </AtButton>
-            <AtButton type="secondary" onClick={handleDelete}>
+            <AtButton type='secondary' onClick={handleDelete}>
               删除场景
             </AtButton>
           </View>

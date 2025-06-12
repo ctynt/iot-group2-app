@@ -17,6 +17,8 @@ export default function Scene() {
   const userInfo = useAppSelector((state) => state.user);
   const userId = userInfo.id || localUserId; // 优先使用Redux中的userId，其次使用本地状态
   const dispatch = useAppDispatch();
+  const tenantId = userInfo.tenantId;
+  console.log("租户Id",tenantId)
 
   // 获取用户信息的函数
   const fetchUserInfo = async () => {
@@ -212,56 +214,56 @@ export default function Scene() {
   };
 
   return (
-    <View className="scene-page">
-      <View className="section-title">常用场景</View>
+    <View className='scene-page'>
+      <View className='section-title'>常用场景</View>
       {loginRequired ? (
-        <View className="login-required">
-          <Text className="login-message">请先登录以查看您的场景</Text>
-          <AtButton type="primary" onClick={goToLogin}>
+        <View className='login-required'>
+          <Text className='login-message'>请先登录以查看您的场景</Text>
+          <AtButton type='primary' onClick={goToLogin}>
             去登录
           </AtButton>
         </View>
       ) : (
         <View>
           {/* 添加场景按钮 - 始终显示（只要已登录） */}
-          <View className="add-scene-button-container">
-            <AtButton type="primary" onClick={handleAddScene}>
+          <View className='add-scene-button-container'>
+            <AtButton type='primary' onClick={handleAddScene}>
               添加场景
             </AtButton>
           </View>
 
           {loading ? (
-            <View className="loading">加载中...</View>
+            <View className='loading'>加载中...</View>
           ) : (
-            <View className="scene-list">
+            <View className='scene-list'>
               {scenes.length > 0 ? (
                 scenes.map((scene) => (
                   <View
                     key={scene.id}
-                    className="scene-card"
+                    className='scene-card'
                     onClick={() => handleSceneClick(scene.id)}
                   >
-                    <View className="scene-info">
-                      <Text className="scene-name">{scene.name}</Text>
-                      <Text className="scene-desc">
+                    <View className='scene-info'>
+                      <Text className='scene-name'>{scene.name}</Text>
+                      <Text className='scene-desc'>
                         {scene.description || "无描述"}
                       </Text>
                     </View>
                     <View
-                      className="switch-container"
+                      className='switch-container'
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Switch
                         checked={scene.enabled}
                         onChange={(e) => handleSwitchChange(e, scene)}
-                        className="scene-switch"
+                        className='scene-switch'
                       />
                     </View>
                   </View>
                 ))
               ) : (
-                <View className="empty-state">
-                  <Text className="empty-text">暂无场景</Text>
+                <View className='empty-state'>
+                  <Text className='empty-text'>暂无场景</Text>
                 </View>
               )}
             </View>

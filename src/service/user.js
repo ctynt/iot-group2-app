@@ -10,6 +10,7 @@ import { http } from "@/utils/http";
  * @typedef {Object} MobileLoginVO
  * @property {number} id - 用户ID
  * @property {string} mobile - 手机号
+ * @property {number} tenantId 租户Id
  * @property {string} accessToken - 访问令牌
  */
 
@@ -19,6 +20,7 @@ import { http } from "@/utils/http";
  * @property {string} mobile - 手机号
  * @property {string} email - 邮箱
  * @property {string} nickname - 昵称
+ * @property {number} tenantId 租户Id
  * @property {string} avatar - 头像
  * @property {number} gender - 性别
  * @property {string} createTime - 创建时间
@@ -35,6 +37,7 @@ import { http } from "@/utils/http";
  * @property {number} id - 用户ID
  * @property {string} username - 用户名
  * @property {string} accessToken - 访问令牌
+ * @property {number} tenantId 租户Id
  */
 
 /**

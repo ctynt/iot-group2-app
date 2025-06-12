@@ -8,6 +8,7 @@ export function getDeviceList(params) {
     data: {
       page: params.page,
       limit: params.limit,
+      tenantId:params.tenantId
     },
   });
 }

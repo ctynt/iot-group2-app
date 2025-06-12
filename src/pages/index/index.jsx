@@ -10,7 +10,7 @@ import { AtCard } from "taro-ui";
 import { getNewsList } from "../../services/news";
 import { getDeviceList } from "../../services/device";
 import "./index.scss";
-
+import { useAppSelector } from "@/store";
 // 定义页面配置
 export default function Index() {
   const [swiperData, setSwiperData] = useState([]);
@@ -19,7 +19,8 @@ export default function Index() {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const pageSize = 10;
-
+  const userInfo = useAppSelector((state) => state.user);
+  const tenantId = userInfo.tenantId;
   // 获取设备列表数据的函数
   const fetchDeviceList = (pageNum = 1, isLoadMore = false) => {
     if (loading || (!hasMore && isLoadMore)) return;
@@ -29,6 +30,7 @@ export default function Index() {
     getDeviceList({
       page: pageNum,
       limit: pageSize,
+      tenantId: tenantId
     })
       .then((res) => {
         // 修改前: if (res && res.code === 0 && res.data && res.data.list)
@@ -139,27 +141,27 @@ export default function Index() {
   };
 
   return (
-    <View className="index">
+    <View className='index'>
       {/* 轮播图部分 */}
-      <View className="swiper-container">
+      <View className='swiper-container'>
         <Swiper
-          className="swiper"
+          className='swiper'
           circular
           autoplay
-          indicatorColor="#999"
-          indicatorActiveColor="#4594D5"
+          indicatorColor='#999'
+          indicatorActiveColor='#4594D5'
         >
           {swiperData.map((item) => (
-            <SwiperItem key={item.id} className="swiper-item">
-              <View className="swiper-card">
+            <SwiperItem key={item.id} className='swiper-item'>
+              <View className='swiper-card'>
                 <Image
-                  className="card-cover"
+                  className='card-cover'
                   src={item.cover}
-                  mode="aspectFill"
+                  mode='aspectFill'
                 />
-                <View className="card-content">
-                  <Text className="card-title">{item.title}</Text>
-                  <Text className="card-desc">{item.content}</Text>
+                <View className='card-content'>
+                  <Text className='card-title'>{item.title}</Text>
+                  <Text className='card-desc'>{item.content}</Text>
                 </View>
               </View>
             </SwiperItem>
@@ -168,10 +170,10 @@ export default function Index() {
       </View>
 
       {/* 设备列表部分 */}
-      <View className="devices-section">
-        <View className="section-header">
+      <View className='devices-section'>
+        <View className='section-header'>
           <View>
-            <Text className="section-title">我的设备</Text>
+            <Text className='section-title'>我的设备</Text>
           </View>
           {/* <View>
             <AtButton
@@ -185,18 +187,18 @@ export default function Index() {
             </AtButton>
           </View> */}
         </View>
-        <View className="devices-grid">
+        <View className='devices-grid'>
           {devices.length > 0 ? (
             <>
               {devices.map((device) => (
                 <View
                   key={device.id}
-                  className="device-item"
+                  className='device-item'
                   onClick={() => handleDeviceClick(device)}
                 >
-                  <AtCard title={device.name} className="device-card">
-                    <View className="device-info">
-                      <Text className="device-status">
+                  <AtCard title={device.name} className='device-card'>
+                    <View className='device-info'>
+                      <Text className='device-status'>
                         {device.status === 1 ? "在线" : "离线"}
                       </Text>
                       {/* <AtButton
@@ -214,20 +216,20 @@ export default function Index() {
 
               {/* 加载状态提示 - 放在grid内部以使用grid-column */}
               {loading && (
-                <View className="loading-tip">
+                <View className='loading-tip'>
                   <Text>正在加载更多...</Text>
                 </View>
               )}
 
               {/* 没有更多数据提示 - 放在grid内部以使用grid-column */}
               {!hasMore && devices.length > 0 && (
-                <View className="no-more-tip">
+                <View className='no-more-tip'>
                   <Text>— 没有更多设备了 —</Text>
                 </View>
               )}
             </>
           ) : (
-            <View className="empty-devices">
+            <View className='empty-devices'>
               <Text>暂无设备</Text>
             </View>
           )}

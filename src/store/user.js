@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
  * @property {number} id - 用户ID
  * @property {string} mobile - 手机号
  * @property {string} email - 邮箱
+ * @property {number} tenantId - 用户ID
  * @property {string} nickname - 昵称
  * @property {string} avatar - 头像
  * @property {number} gender - 性别
@@ -18,6 +19,7 @@ const initialState = {
   mobile: '',
   email: '',
   nickname: '',
+  tenantId: 10000,
   avatar: '',
   gender: 0,
   createTime: '',
