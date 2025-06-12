@@ -279,9 +279,9 @@ export default function SceneDetail() {
     scene.devices.forEach((device) => {
       const type = device.deviceType || device.type;
       if (type === 1) devicesByType.led = device.deviceId || device.id;
-      if (type === 2) devicesByType.sensor = device.deviceId || device.id;
+      if (type === 4) devicesByType.sensor = device.deviceId || device.id;
       if (type === 3) devicesByType.buzzer = device.deviceId || device.id;
-      if (type === 5) devicesByType.fan = device.deviceId || device.id;
+      if (type === 2) devicesByType.fan = device.deviceId || device.id;
     });
   }
 
